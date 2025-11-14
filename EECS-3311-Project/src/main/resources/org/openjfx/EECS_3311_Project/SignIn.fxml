@@ -14,23 +14,26 @@
          <children>
             <Text layoutX="224.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email">
                <font>
-                  <Font name="Arial Bold" size="17.0" />
+                  <Font size="17.0" />
                </font>
             </Text>
             <TextField fx:id="tf_email" layoutX="224.0" layoutY="164.0" />
             <Text layoutX="224.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                <font>
-                  <Font name="Arial Bold" size="17.0" />
+                  <Font size="17.0" />
                </font>
             </Text>
-            <Button fx:id="button_signIn" layoutX="224.0" layoutY="284.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="151.0" style="-fx-background-color: #33F2AC; -fx-cursor: hand;" text="Sign In" />
+            <Button fx:id="button_signIn" layoutX="224.0" layoutY="284.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="151.0" style="-fx-background-color: #2680c0; -fx-cursor: hand;" text="Sign In" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font></Button>
             <PasswordField fx:id="tf_password" layoutX="224.0" layoutY="235.0" />
             <Text layoutX="199.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not a User?">
                <font>
-                  <Font name="Arial Bold" size="17.0" />
+                  <Font size="17.0" />
                </font>
             </Text>
-            <Button fx:id="button_signUp" layoutX="289.0" layoutY="329.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Sign Up!" textFill="#1639ff" underline="true">
+            <Button fx:id="button_signUp" layoutX="289.0" layoutY="329.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Sign Up!" textFill="#2680c0" underline="true">
                <font>
                   <Font name="Arial Bold" size="17.0" />
                </font>

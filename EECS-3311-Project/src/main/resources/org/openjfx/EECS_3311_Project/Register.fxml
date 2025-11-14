@@ -24,7 +24,7 @@
 				<TextField layoutX="158.0" layoutY="232.0" prefHeight="25.0" prefWidth="319.0" />
 				<Text layoutX="157.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password" />
 				<TextField layoutX="157.0" layoutY="291.0" prefHeight="25.0" prefWidth="319.0" />
-				<Button layoutX="222.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: #33F2AC; -fx-cursor: hand;" text="Register" />
+				<Button layoutX="222.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="169.0" style="-fx-background-color: #2680c0; -fx-cursor: hand;" text="Register" textFill="WHITE" />
 			</children>
 		</AnchorPane>
 	</children>
