@@ -19,6 +19,8 @@
             <Text layoutX="242.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Not a User?" />
             <Button fx:id="button_signUp" layoutX="300.0" layoutY="299.0" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-cursor: hand;" text="Sign Up!" textFill="#2680c0" underline="true" />
             <Text layoutX="242.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPANY LOGO HERE" />
+            <Text fill="RED" layoutX="258.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="280.0" layoutY="184.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
          </children>
       </AnchorPane>
    </children>

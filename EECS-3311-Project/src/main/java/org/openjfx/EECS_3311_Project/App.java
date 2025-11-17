@@ -17,10 +17,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("HomePage"), 640, 480);
+
+        //initialize the databases
+        UsersDatabaseUtils.initiliazeDBFolder();
+
+        //setting the first page we want the user to see
+        scene = new Scene(loadFXML("SignIn"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
+
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

@@ -1,7 +1,12 @@
 package org.openjfx.EECS_3311_Project;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -9,8 +14,23 @@ import java.util.ResourceBundle;
 
 public class SignInController implements Initializable {
 
+    private final String userDB_CSV = "UserDB.csv";
+    private final String bookingDB = "BookingDB.csv";
+
+
     @FXML
     private AnchorPane anchorPane_SignInPage;
+    @FXML
+    private Button button_signIn;
+    @FXML
+    private Button button_signUp;
+
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private PasswordField tf_password;
+
+    FileRepository icsv = new FileRepository(UsersDatabaseUtils.bookingDB, UsersDatabaseUtils.userDB_CSV);
 
 
     @Override
@@ -35,5 +55,25 @@ public class SignInController implements Initializable {
                 });
             }
         });
+
+        //working with the signIn button action
+        button_signIn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                icsv.signIn(event, tf_email.getText(), tf_password.getText());
+            }
+        });
+
+        //working with the signUp button action
+        button_signUp.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
+                UsersDatabaseUtils.changeScene(event, "Register.fxml", "Register", null, null);
+            }
+        });
+
+
     }
 }

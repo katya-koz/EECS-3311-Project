@@ -27,6 +27,12 @@
 				<PasswordField fx:id="pf_password" layoutX="157.0" layoutY="262.0" prefHeight="25.0" prefWidth="319.0" />
 				<PasswordField fx:id="pf_confirmPassword" layoutX="157.0" layoutY="319.0" prefHeight="25.0" prefWidth="319.0" />
             <Text layoutX="238.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPANY LOGO HERE" />
+            <Text fill="RED" layoutX="215.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="380.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="232.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="230.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="208.0" layoutY="246.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
+            <Text fill="RED" layoutX="253.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*" />
 			</children>
 		</AnchorPane>
 
