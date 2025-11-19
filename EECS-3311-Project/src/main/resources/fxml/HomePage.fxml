@@ -31,7 +31,7 @@
                 <children>
                     <ImageView fitHeight="217.0" fitWidth="265.0" layoutX="23.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../../../images/2048px-Default_pfp.svg.png" />
+                            <Image url="@../images/Default_pfp.jpg" />
                         </image>
                     </ImageView>
                     <Text fx:id="text_email" layoutX="60.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email: " />

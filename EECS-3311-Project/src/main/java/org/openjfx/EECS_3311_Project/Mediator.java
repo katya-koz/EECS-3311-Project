@@ -2,6 +2,7 @@ package org.openjfx.EECS_3311_Project;
 
 import java.util.UUID;
 
+import org.openjfx.EECS_3311_Project.managers.UserManager;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.User;
 

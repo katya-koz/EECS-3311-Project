@@ -1,4 +1,4 @@
-package org.openjfx.EECS_3311_Project;
+package org.openjfx.EECS_3311_Project.managers;
 
 import java.util.List;
 import java.util.Optional;

@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.openjfx.EECS_3311_Project.Mediator;
-import org.openjfx.EECS_3311_Project.SceneManager;
+import org.openjfx.EECS_3311_Project.managers.SceneManager;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.User;
 
