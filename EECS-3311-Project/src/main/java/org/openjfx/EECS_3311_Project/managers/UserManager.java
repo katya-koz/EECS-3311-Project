@@ -1,5 +1,7 @@
-package org.openjfx.EECS_3311_Project;
+package org.openjfx.EECS_3311_Project.managers;
 
+import org.openjfx.EECS_3311_Project.CSVAdapter;
+import org.openjfx.EECS_3311_Project.ICSVRepository;
 import org.openjfx.EECS_3311_Project.model.User;
 
 public class UserManager {

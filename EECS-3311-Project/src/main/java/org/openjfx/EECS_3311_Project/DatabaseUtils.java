@@ -1,22 +1,12 @@
 package org.openjfx.EECS_3311_Project;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.stage.Stage;
+
 
 import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.UUID;
-
-import org.openjfx.EECS_3311_Project.controllers.HomePageController;
 
 public class DatabaseUtils {
 
@@ -33,24 +23,24 @@ public class DatabaseUtils {
     //scene changer
     // there shouldnt be a scene changer in this repo util. moved to static scenemanager class
 
-
-    private static String getResourcePath(String resourceName) {
-        try {
-            // This searches the classpath for the file
-            URL resourceUrl = DatabaseUtils.class.getResource(resourceName);
-
-            if (resourceUrl == null) {
-                throw new RuntimeException("Cannot find resource: " + resourceName);
-            }
-
-            // Convert the URL to a clean file path
-            return Paths.get(resourceUrl.toURI()).toString();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error loading resource: " + resourceName, e);
-        }
-    }
+//
+//    private static String getResourcePath(String resourceName) {
+//        try {
+//            // This searches the classpath for the file
+//            URL resourceUrl = DatabaseUtils.class.getResource(resourceName);
+//
+//            if (resourceUrl == null) {
+//                throw new RuntimeException("Cannot find resource: " + resourceName);
+//            }
+//
+//            // Convert the URL to a clean file path
+//            return Paths.get(resourceUrl.toURI()).toString();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Error loading resource: " + resourceName, e);
+//        }
+//    }
 
     public static void initializeDBFolder() {
         try {

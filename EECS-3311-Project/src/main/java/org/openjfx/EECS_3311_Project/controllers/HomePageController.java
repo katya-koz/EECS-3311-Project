@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.openjfx.EECS_3311_Project.SceneManager;
+import org.openjfx.EECS_3311_Project.managers.SceneManager;
 
 public class HomePageController implements Initializable {
 
@@ -48,19 +48,7 @@ public class HomePageController implements Initializable {
             }
         });
 
-        //actions for each of the menu buttons
-        //to implement: bookings, cecTools, Admin tools
-
-        //logout button listener to change to "login" scene
-        button_Logout.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-                SceneManager.changeScene(event, "SignIn.fxml", "Sign In", null, null);
-
-            }
-        });
-
+        
 
     }
 

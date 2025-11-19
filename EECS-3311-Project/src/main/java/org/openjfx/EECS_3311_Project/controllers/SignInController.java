@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.openjfx.EECS_3311_Project.Mediator;
-import org.openjfx.EECS_3311_Project.SceneManager;
+import org.openjfx.EECS_3311_Project.managers.SceneManager;
 import org.openjfx.EECS_3311_Project.model.User;
 
 
@@ -55,7 +55,6 @@ public class SignInController implements Initializable {
                         anchorPane_SignInPage.setScaleX(1.25); // 125% size
                         anchorPane_SignInPage.setScaleY(1.25);
                     } else {
-                        // Otherwise, go back to normal size
                         anchorPane_SignInPage.setScaleX(1.0);
                         anchorPane_SignInPage.setScaleY(1.0);
                     }
