@@ -79,6 +79,14 @@ public class Booking implements ICSVDataObject {
         this(UUID.randomUUID().toString(), roomId, name, isCheckedIn, hostId, attendeeIds, startTime, endTime, checkInTime, Status.ACTIVE);
     }
 
+    public Booking(String name, String roomId, LocalDateTime startTime, LocalDateTime endTime, boolean isCheckedIn)
+    {
+        this.name = name;
+        this.roomId = roomId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.isCheckedIn = isCheckedIn;
+    }
 
     public String getId() { return id; }
     public String getRoomId() { return roomId; }
@@ -97,7 +105,10 @@ public class Booking implements ICSVDataObject {
     public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
     public LocalDateTime getCheckIn() { return checkInTime; }
     public void setCheckIn(LocalDateTime checkInTime) { this.checkInTime = checkInTime; }
-
+    public String getName()
+    {
+        return this.name;
+    }
     @Override
     public String toCSVRow() {
         String attendees = "[]";

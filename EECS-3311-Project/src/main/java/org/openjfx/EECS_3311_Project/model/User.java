@@ -1,5 +1,8 @@
 package org.openjfx.EECS_3311_Project.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -11,7 +14,8 @@ public class User implements ICSVDataObject {
 	private String email;
 	private String password;
 	private String userType;
-	private ArrayList<Booking> bookings = new ArrayList<Booking>();
+	private ArrayList<Booking> bookings;
+	private ObservableList<Booking> observableBookings;
 	private AccountRole accountRole;
 
 
@@ -21,6 +25,8 @@ public class User implements ICSVDataObject {
 	    this.lastName = lastName;
 	    this.email = email;
 	    this.password= password;
+		this.bookings  = new ArrayList<Booking>();
+		this.observableBookings = FXCollections.observableList(bookings);
     }
 	
 	public User(String firstName, String lastName, String email, String password) {
@@ -29,6 +35,8 @@ public class User implements ICSVDataObject {
 	    this.lastName = lastName;
 	    this.email = email;
 	    this.password= password;
+		this.bookings  = new ArrayList<Booking>();
+		this.observableBookings = FXCollections.observableList(bookings);
     }
 
 	//constructor with added parameters not including bookings
@@ -52,11 +60,13 @@ public class User implements ICSVDataObject {
 		this.password = password;
 		this.userType = userType;
 		this.accountRole = accountType;
+		this.bookings  = new ArrayList<Booking>();
+		this.observableBookings = FXCollections.observableList(bookings);
 	}
 	
 	public User()
 	{
-		
+
 	}
 	
 	public User(String userCSVRow) {
@@ -153,8 +163,16 @@ public class User implements ICSVDataObject {
 		return bookings;
 	}
 
+	public ObservableList<Booking> getObservableBookings()
+	{
+		return observableBookings;
+	}
+
+
 	public void setBookings(ArrayList<Booking> bookings) {
 		this.bookings = bookings;
+		//the observable list used by the gui
+		this.observableBookings = FXCollections.observableList(this.bookings);
 	}
 
 	public AccountRole getAccountRole() {

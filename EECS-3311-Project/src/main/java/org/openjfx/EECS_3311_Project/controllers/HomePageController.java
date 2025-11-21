@@ -1,16 +1,23 @@
 package org.openjfx.EECS_3311_Project.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import org.openjfx.EECS_3311_Project.Session;
+import org.openjfx.EECS_3311_Project.model.Booking;
 import org.openjfx.EECS_3311_Project.model.User;
+import org.openjfx.EECS_3311_Project.views.BookingView;
 
 public class HomePageController implements Initializable {
 
@@ -29,11 +36,31 @@ public class HomePageController implements Initializable {
     @FXML
     private Text text_accountRole;   
     @FXML
-    private Text text_hourlyRate;   
+    private Text text_hourlyRate;
+    @FXML
+    private ListView<Booking> lv_bookingsListView;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setUserInfo(Session.getUser());
+
+        lv_bookingsListView.setCellFactory(param -> new BookingView());
+
+        lv_bookingsListView.setPlaceholder(new Label("No bookings yet"));
+
+
+        // 2. CREATE DUMMY DATA (The test)
+        // In the real app, this list comes from your User object
+        ObservableList<Booking> testBookings = FXCollections.observableArrayList();
+
+        testBookings.add(new Booking("Test Name 1", "Room 101", LocalDateTime.now(), LocalDateTime.now(), false));
+        testBookings.add(new Booking("Test Name 2", "Room 101", LocalDateTime.now(), LocalDateTime.now(), false));
+
+        testBookings.add(new Booking("Test Name 3", "Room 101", LocalDateTime.now(), LocalDateTime.now(), false));
+
+
+        // 3. LOAD THE DATA INTO THE VIEW
+        lv_bookingsListView.setItems(testBookings);
     }
 
     public void setUserInfo(User user) {
