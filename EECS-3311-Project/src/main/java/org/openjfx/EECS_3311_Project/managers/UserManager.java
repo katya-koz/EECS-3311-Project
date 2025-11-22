@@ -36,5 +36,28 @@ public class UserManager {
 	   public User getUserById(String userId) {
 	        return csvRepository.getUserById(userId);
 	    }
+	   
+		 public void toggleAdmin(String userId, boolean isAdmin) {
+	         csvRepository.toggleAdmin(userId, isAdmin);
+	    }
+	 
+	 public void upsertAccountRole(AccountRole role) {
+	        csvRepository.upsertAccountRole(role);
+	    }
+	 
+	   public void removeAccountRole(String roleName) {
+	        csvRepository.removeAccountRole(roleName);
+	    }
+
+	   public double getHourlyRate(User user) {
+		    for (AccountRole role : csvRepository.getAccountRoles()) {
+		        if (role.getId().equals(user.getAccountRole().getId())) {
+		            return role.getHourlyRate();
+		        }
+		    }
+		    return 0.0;
+		}
 
 }
+
+

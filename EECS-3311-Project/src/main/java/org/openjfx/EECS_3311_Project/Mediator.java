@@ -100,6 +100,9 @@ public class Mediator {
 		return bookingManager.getAllInvitedBookings(userId);
 	}
 	
+	public UserManager getUserManager() {
+	    return userManager;
+	}
 	
 
 	
