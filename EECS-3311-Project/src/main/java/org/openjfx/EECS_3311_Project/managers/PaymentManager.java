@@ -70,9 +70,8 @@ public class PaymentManager{
 	    return (sum % 10 == 0);
 	}
 	
-	public Payment createRecord(double amount, String lastDigitsOfCard, String userId) {
-		Payment payment = new Payment(amount, lastDigitsOfCard, userId);
-
+	public Payment createRecord(Payment payment) {
+	
 		paymentCSV.create(payment);
 		return payment;
 	}

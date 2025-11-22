@@ -45,9 +45,14 @@ public class UserManager {
 		return userCSV.upsert(user);
 	}
 
+
 	public List<User> getManyByIds(List<String> attendeeIds) {
 		return userCSV.readMany((user, cols) -> attendeeIds.contains(user.getId()));
 	}
-
+	
+	
+	
 
 }
+
+

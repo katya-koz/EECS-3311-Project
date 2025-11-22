@@ -129,6 +129,22 @@ public class Mediator {
 		
 	}
 	
+	public UserManager getUserManager() {
+	    return userManager;
+	}
+
+	public void toggleAdmin(User user, boolean isAdmin) {
+		if(isAdmin) user.setUserType("Admin");
+		if(!isAdmin) user.setUserType("User");
+		
+		userManager.saveUser(user);
+
+	}
+
+	public Payment createPaymentRecord(Payment payment) {
+		return paymentManager.createRecord(payment);
+		
+	}
 	
 
 	

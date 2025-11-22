@@ -29,6 +29,7 @@ import org.openjfx.EECS_3311_Project.Session;
 import org.openjfx.EECS_3311_Project.managers.SceneManager;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.Booking;
+import org.openjfx.EECS_3311_Project.model.Payment;
 import org.openjfx.EECS_3311_Project.model.User;
 
 public class BookingEditController implements Initializable {
@@ -189,6 +190,9 @@ public class BookingEditController implements Initializable {
                 Session.getUser().addBooking(currentBooking);
                 mediator.saveUser(Session.getUser());
                 modalStage.close();
+                Payment payment = new Payment(price, parseCard(card), Session.getUser().getId());
+                
+                mediator.createPaymentRecord(payment);
                 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Payment Successful");
@@ -206,6 +210,19 @@ public class BookingEditController implements Initializable {
         
     	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
+    
+    public static String parseCard(String cardNumber) {
+        if (cardNumber == null || cardNumber.length() <= 4) {
+            return cardNumber;
+        }
+
+        int length = cardNumber.length();
+        String lastFour = cardNumber.substring(length - 4);
+        String masked = "*".repeat(length - 4);
+
+        return masked + lastFour;
+    }
+
     
     private String validatePaymentFields(String card, String csv, String expiry) {
         if (card.isBlank() || !card.matches("\\d{16}")) {

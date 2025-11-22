@@ -18,4 +18,16 @@ public class AccountRoleManager {
 		if (roleOpt.isPresent()) return roleOpt.get();
 		return null;
 	}
+	
+	
+	public AccountRole upsertAccountRole(AccountRole role) {
+		return rolesCSV.upsert(role);
+		
+	}
+	
+	public AccountRole removeAccountRole(AccountRole role) {
+		rolesCSV.delete(role);
+		return role;
+		
+	}
 }
