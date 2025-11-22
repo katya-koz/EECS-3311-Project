@@ -39,4 +39,8 @@ public interface ICSVRepository {
 	ArrayList<Booking> getBookingsByRoomAndDate(String roomId, LocalDate date);
 	Payment createRecord(Payment payment);
 	boolean validatePayment(Payment payment);
+	void upsertAccountRole(AccountRole role);
+	void removeAccountRole(String roleName);
+	void toggleAdmin(String userID, boolean isAdmin);
+	
 }
