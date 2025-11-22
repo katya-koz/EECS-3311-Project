@@ -30,7 +30,6 @@ public interface ICSVRepository {
     User createAccount(User user);
     User signIn(String email, String password);
     ArrayList<User> getAllUsers(); 
-    User updateAdmin(User user, Boolean isAdmin);
 	boolean isEmailTaken(String text);
 	ArrayList<AccountRole> getAccountRoles();
 	ArrayList<Room> getAllRooms();
@@ -41,6 +40,6 @@ public interface ICSVRepository {
 	boolean validatePayment(Payment payment);
 	void upsertAccountRole(AccountRole role);
 	void removeAccountRole(String roleName);
-	void toggleAdmin(String userID, boolean isAdmin);
+	void toggleAdmin(String userId, Boolean isAdmin);
 	
 }

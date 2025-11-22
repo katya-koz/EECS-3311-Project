@@ -408,14 +408,62 @@ public class CSVAdapter implements ICSVRepository{
 
 
 
-	@Override
-	public User updateAdmin(User user, Boolean isAdmin) {
-		// TODO Auto-generated method stub
-		return null;
+    @Override
+	public void toggleAdmin(String userId, Boolean isAdmin) {
+		ArrayList<User> users = getAllUsers();
+	    for (User u : users) {
+	        if (u.getId().equals(userId)) {
+	            u.setUserType(isAdmin ? "Admin" : "User");
+	            break;
+	        }
+	    }
+	    writeUsers(users);
 	}
 
-
-
+    private void writeUsers(ArrayList<User> users) {
+	    try (PrintWriter pw = new PrintWriter(new FileWriter(DatabaseUtils.userFilePath.toString()))) {
+	        // Write header
+	        pw.println("id,firstName,lastName,email,password,userType,accountRoleId");
+	        for (User u : users) {
+	            pw.println(u.toCSVRow());
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	@Override
+	public void upsertAccountRole(AccountRole role) {
+	    ArrayList<AccountRole> roles = getAccountRoles();
+	    boolean updated = false;
+	    for (int i = 0; i < roles.size(); i++) {
+	        if (roles.get(i).getId().equals(role.getId())) {
+	            roles.set(i, role);
+	            updated = true;
+	            break;
+	        }
+	    }
+	    if (!updated) {
+	        roles.add(role);
+	    }
+	    writeAccountRoles(roles);
+	}
+	
+	@Override
+	public void removeAccountRole(String roleName) {
+	    ArrayList<AccountRole> roles = getAccountRoles();
+	    roles.removeIf(r -> r.getRoleName().equalsIgnoreCase(roleName));
+	    writeAccountRoles(roles);
+	}
+	private void writeAccountRoles(ArrayList<AccountRole> roles) {
+	    try (PrintWriter pw = new PrintWriter(new FileWriter(DatabaseUtils.accountRolesFilePath.toString()))) {
+	        pw.println("roleId,roleName,hourlyRate");
+	        for (AccountRole role : roles) {
+	            pw.println(role.toCSVRow());
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 
 
