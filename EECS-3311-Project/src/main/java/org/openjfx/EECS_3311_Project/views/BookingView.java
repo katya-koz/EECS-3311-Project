@@ -73,7 +73,7 @@ public class BookingView extends ListCell<Booking>
         Button cancelButton = new Button("✖ Cancel");
         cancelButton.setStyle("-fx-background-color: #f88; -fx-cursor: hand; -fx-text-fill: white;");
 
-        // cacnel buitton
+        // cancel buitton
         cancelButton.setOnAction(event -> {
             Booking currentBooking = getItem();
             if (currentBooking != null) {
@@ -103,10 +103,44 @@ public class BookingView extends ListCell<Booking>
             }
         });
         
+        //check in button
+        Button checkInButton = new Button("Check In");
+        checkInButton.setStyle("-fx-background-color: #02aa33; -fx-cursor: hand; -fx-text-fill: white;");
+      
+        checkInButton.setOnAction(event -> {
+        	Booking currentBooking = getItem();
+        	 if (currentBooking.getIsCheckedIn() == false) {
+                 Alert confirmAlert2 = new Alert(Alert.AlertType.CONFIRMATION);
+                 confirmAlert2.setHeaderText("Check into " + currentBooking.getRoomId() + " for " + currentBooking.getName() + "?");
+                 confirmAlert2.setContentText("Meeting Begins on: " + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("MMM d, yyyy")) + " from"
+                 + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " to" 
+                		 + currentBooking.getEndTime().format(DateTimeFormatter.ofPattern("HH:mm"))
+                 );
+                 
+                 confirmAlert2.showAndWait().ifPresent(response -> {
+                	 if(response == ButtonType.OK) {
+                		 currentBooking.checkIn();
+                		 Mediator.getInstance().saveBooking(currentBooking);
+                		 Session.setEditBooking(currentBooking);
+                		 
+                		 Alert successAlert2 = new Alert(Alert.AlertType.INFORMATION);
+                		 successAlert2.setTitle("Checked into Booking");
+                		 successAlert2.setHeaderText("Success!");
+                		 successAlert2.setContentText("You have successfully checked into your booking!");
+                		 successAlert2.showAndWait();
+                		 getListView().getItems();
+                	 }
+                 });
+                 
+        	 }
+        	
+        }
+        );
         if(isHost)
         {
-        	root = new HBox(10, card, emptySpace, editButton, cancelButton);
+        	root = new HBox(10, card, emptySpace, checkInButton, editButton, cancelButton);
         }
+        
         else
         {
         	root = new HBox(10, card, emptySpace);

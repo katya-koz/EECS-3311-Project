@@ -184,5 +184,9 @@ public class Booking implements ICSVDataObject {
 	}
 
 
+	public void checkIn() {
+		this.setIsCheckedIn(true);
+		this.setCheckInTime(LocalDateTime.now());
+	}
 	
 }

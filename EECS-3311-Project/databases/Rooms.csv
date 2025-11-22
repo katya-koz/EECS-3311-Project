@@ -1,20 +1,20 @@
 ROOM1,Room 101 TEST,true,50,Building A
 ROOM2,Room 102,true,50,Building A
 ROOM3,Lab 1,true,20,Building C
-ROOM4,Conference Hall,false,100,Building A
-ROOM5,Auditorium,false,200,Building D
+ROOM4,Conference Hall,true,100,Building A
+ROOM5,Auditorium,true,200,Building D
 ROOM6,Room 103,true,45,Building B
 ROOM7,Lab 2,true,25,Building C
 ROOM8,Meeting Room 1,true,15,Building A
-ROOM9,Room 104,false,35,Building B
+ROOM9,Room 104,true,35,Building B
 ROOM10,Lecture Hall 1,true,120,Building D
 ROOM11,Room 105,true,40,Building C
 ROOM12,Seminar Room,true,30,Building A
-ROOM13,Room 106,false,50,Building B
+ROOM13,Room 106,true,50,Building B
 ROOM14,Lab 3,true,20,Building C
 ROOM15,Conference Hall 2,true,90,Building D
-ROOM16,Auditorium 2,false,180,Building A
+ROOM16,dd,false,180,Building A
 ROOM17,Room 107,true,60,Building B
 ROOM18,Meeting Room 2,true,20,Building C
 ROOM19,Room 108,false,40,Building A
-ed229626-37b7-4cac-93fc-ed68b4d94d98,testing room,true,60,123
+a9438a45-161b-41e9-b4d0-4b947cdc2226,Damon's room,true,123,Dame's building
