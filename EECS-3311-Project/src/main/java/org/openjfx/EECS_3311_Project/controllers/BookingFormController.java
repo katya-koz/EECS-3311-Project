@@ -73,9 +73,10 @@ public class BookingFormController {
     	    LocalDateTime endDateTime = LocalDateTime.of(selectedDate, endTime);
 
 
-    	    Booking newBooking = new Booking( selectedRoom.getRoomId(), Session.getUser().getId(), startDateTime, endDateTime);
+    	    Booking newBooking = new Booking(selectedRoom.getRoomId(), Session.getUser().getId(), startDateTime, endDateTime);
+
     	    Session.setNewBooking(newBooking);
-    	    
+    
     	    SceneManager.changeScene(event, "BookingEdit.fxml", "Edit Booking");
     	} else {
 		    // show alert if no time selected

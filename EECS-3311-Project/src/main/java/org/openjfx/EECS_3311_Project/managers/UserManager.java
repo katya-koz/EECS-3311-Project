@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.openjfx.EECS_3311_Project.CSVAdapter;
 import org.openjfx.EECS_3311_Project.ICSVRepository;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
+import org.openjfx.EECS_3311_Project.model.Room;
 import org.openjfx.EECS_3311_Project.model.User;
 
 public class UserManager {
@@ -27,6 +28,13 @@ public class UserManager {
 	public ArrayList<AccountRole> getAccountRoles() {
 		return csvRepository.getAccountRoles();
 	}
-
+	
+	public ArrayList<User> getAllUsers() {
+		return csvRepository.getAllUsers();
+	}
+	
+	   public User getUserById(String userId) {
+	        return csvRepository.getUserById(userId);
+	    }
 
 }

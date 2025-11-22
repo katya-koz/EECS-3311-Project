@@ -21,10 +21,9 @@ public class RoomManger {
 		return csvRepository.upsertRoom(room);
 	}
 
-
-
 	public Room removeRoom(String roomId) {
 		return csvRepository.removeRoom(roomId);
 	}
 
 }
+

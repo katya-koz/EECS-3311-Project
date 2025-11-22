@@ -16,8 +16,7 @@ public class Booking implements ICSVDataObject {
     private LocalDateTime endTime;
     private LocalDateTime checkInTime;
     private Status status;
-
-
+    
     public Booking(String csvRow) {
         String[] tokens = csvRow.split(",");
 
@@ -61,15 +60,19 @@ public class Booking implements ICSVDataObject {
         this.checkInTime = checkInTime;
         this.status = status;
     }
-    // new booking from the calendar selct page
-    public Booking(String roomId,String hostId, LocalDateTime startTime,LocalDateTime endTime) {
-    	id = UUID.randomUUID().toString();
-    	name = "New Meeting";
-    	isCheckedIn = false;
-    	attendeeIds = new ArrayList<String>();
-    	checkInTime = null;
-}
-
+    
+    public Booking(String roomId, String hostId, LocalDateTime startTime, LocalDateTime endTime) {
+    	this.id = UUID.randomUUID().toString();
+    	this.roomId = roomId;
+    	this.name = "New Meeting";
+    	this.isCheckedIn = false;
+    	this.hostId = hostId;
+        this.attendeeIds = new ArrayList<String>();
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.checkInTime = null;
+        this.status = Status.DRAFT;
+    }
 
     public Booking(String roomId, String name, 
     				Boolean isCheckedIn,String hostId, 
@@ -97,7 +100,10 @@ public class Booking implements ICSVDataObject {
     public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
     public LocalDateTime getCheckIn() { return checkInTime; }
     public void setCheckIn(LocalDateTime checkInTime) { this.checkInTime = checkInTime; }
-
+    public String getName() {
+    	return name;
+    }
+    
     @Override
     public String toCSVRow() {
         String attendees = "[]";
@@ -109,5 +115,9 @@ public class Booking implements ICSVDataObject {
 
         return String.join(",", id, roomId, name, checkedInStr, hostId, attendees,
                 startTime.toString(), endTime.toString(), checkedTime, status.name());
+    }
+    
+    public double calculatePrice(AccountRole user_type, double hours) {
+    	return user_type.getHourlyRate() * hours;
     }
 }

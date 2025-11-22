@@ -1,16 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Text?>
 
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.openjfx.EECS_3311_Project.controllers.BookingEditController">
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"  fx:controller="org.openjfx.EECS_3311_Project.controllers.BookingEditController">
-	<center>
-		<Label fx:id="text_name" text="This is the edit booking page." styleClass="title"/>
-	</center>
+    <center>
+        <VBox spacing="10" style="-fx-padding: 20;">
+            <children>
+               	<Label text="BOOKING INFO" style="-fx-font-size: 50; -fx-font-weight: bold;"/>
+               <!-- <HBox spacing="5" alignment="CENTER_LEFT">
+			        <Label text="Name:"  styleClass="field-label"/>
+			        <Text fx:id="text_name"/>
+			    </HBox>-->
+				<Label text="Meeting Name:" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <TextField fx:id="bookingName" promptText="Meeting Name" />
+                
+                <Label text="Date and Time:" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <Text fx:id="dateTime" style="-fx-font-size: 20" />
+                
+                <Label text="Host's Email:" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <Text fx:id="hostEmail" style="-fx-font-size: 20" />
+                
+                <Label text="Booking Price:" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+                <Text fx:id="bookingPrice" style="-fx-font-size: 20" />
+                
+                <Label text="Student / Organization ID:" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <TextField fx:id="studentIdField" promptText="Student or Organization ID" />
+                
+                <Label text="Add attendee by ID:" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <HBox spacing="10">
+                    <children>
+                        <TextField fx:id="attendeeIdField" promptText="Enter attendee user ID" HBox.hgrow="ALWAYS" />
+                        <Button text="Add" onAction="#onAddAttendee" />
+                    </children>
+                </HBox>
+                <Label text="Current attendees:" style="-fx-font-size: 20; -fx-font-weight: bold;" />
+                <VBox fx:id="attendeesList" spacing="5" />
+            </children>
+        </VBox>
+    </center>
 </BorderPane>
-
-            
