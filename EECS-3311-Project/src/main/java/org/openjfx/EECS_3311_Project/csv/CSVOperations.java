@@ -42,6 +42,39 @@ public abstract class CSVOperations<T extends ICSVDataObject> {
         }
         return Optional.empty();
     }
+    
+    // read first object matching row (by id)
+    public Optional<T> readById(String id) {
+        List<T> all = readAll();
+
+        for (T item : all) {
+            if (item.getId().equals(id)) {
+                return Optional.of(item);
+            }
+        }
+
+        return Optional.empty();
+    }
+    
+    public T upsert(T item) {
+        List<T> all = readAll();
+        boolean updated = false;
+
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getId().equals(item.getId())) {
+                all.set(i, item); // update existing
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            all.add(item); // create new
+        }
+
+        writeAll(all);
+        return item;
+    }
 
     // replace object by id
     public T update(T newItem) {

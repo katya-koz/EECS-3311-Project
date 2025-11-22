@@ -1,7 +1,6 @@
 package org.openjfx.EECS_3311_Project.model;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -95,5 +94,4 @@ public class User implements ICSVDataObject {
 	
 	
 }
-
 

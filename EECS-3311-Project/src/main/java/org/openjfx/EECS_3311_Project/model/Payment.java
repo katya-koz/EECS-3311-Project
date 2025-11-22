@@ -1,22 +1,44 @@
 package org.openjfx.EECS_3311_Project.model;
 
-public class Payment  implements ICSVDataObject{
+import java.util.UUID;
+
+public class Payment implements ICSVDataObject{
 	private String id;
     private Double amount;
-    private String lastDigitsOfCard;
+    private String cardNumber;
     private String userId;
     
-    public Payment(String id, Double amount, String lastDigitsOfCard, String userId) {
-        this.id = id;
+    public Payment(Double amount, String cardNumber, String userId) {
+        this.id = UUID.randomUUID().toString();
         this.amount = amount;
-        this.lastDigitsOfCard = lastDigitsOfCard;
+        this.cardNumber = cardNumber;
         this.userId= userId;
     }
-
-	@Override
+    
+    public Payment(String csvRow) {
+        // amount, lastDigitsOfCard, userId
+        String[] tokens = csvRow.split(",");
+        this.amount = Double.parseDouble(tokens[0]);
+        this.cardNumber = tokens[1];
+        this.userId = tokens[2];
+    }
+    
 	public String toCSVRow() {
-		// TODO Auto-generated method stub
-		return null;
+		// id, amount, lastDigitsOfCard, userId
+		return String.join(",", this.id, ""+this.amount, this.cardNumber, this.userId);
+	}
+	
+    
+    public double getAmount() {
+		return amount;
+	}
+    
+    public String getCardNumber() {
+		return cardNumber;
+	}
+    
+    public String getUserId() {
+		return userId;
 	}
 
 	public String getId() {
@@ -27,25 +49,19 @@ public class Payment  implements ICSVDataObject{
 		this.id = id;
 	}
 
-	public Double getAmount() {
-		return amount;
-	}
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
-	public String getLastDigitsOfCard() {
-		return lastDigitsOfCard;
-	}
+//	public String getLastDigitsOfCard() {
+//		return lastDigitsOfCard;
+//	}
+//
+//	public void setLastDigitsOfCard(String lastDigitsOfCard) {
+//		this.lastDigitsOfCard = lastDigitsOfCard;
+//	}
 
-	public void setLastDigitsOfCard(String lastDigitsOfCard) {
-		this.lastDigitsOfCard = lastDigitsOfCard;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
 
 	public void setUserId(String userId) {
 		this.userId = userId;

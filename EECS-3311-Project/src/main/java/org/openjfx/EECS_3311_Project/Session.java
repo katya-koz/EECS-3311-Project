@@ -22,9 +22,11 @@ public class Session {
     
     public static Page getCurrentPage() { return currentPage; }
     public static void setCurrentPage(Page p) { currentPage = p; }
+
 	public static void setNewBooking(Booking newBooking) {
-		newBooking = newBooking;
-		
+		Session.newBooking = newBooking;
+
 	}
+	
 	public static Booking getNewBooking() {return newBooking;}
 }

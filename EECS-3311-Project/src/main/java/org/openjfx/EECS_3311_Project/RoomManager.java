@@ -9,17 +9,17 @@ public class RoomManager {
 	RoomCSVOperations roomsCSV = new RoomCSVOperations();
 
 	public List<Room> getAllRooms() {
-		return roomsCSV.readMany(null); // passing null as the filter will return all rooms with no filter
-	}
-
-
-	public Room upsertRoom(Room room) {
-		return roomsCSV.update(room);
+		return roomsCSV.readAll(); 
 	}
 
 	public Room removeRoom(Room room) {
 		roomsCSV.delete(room);
 		return room;
+	}
+
+
+	public Room upsertRoom(Room room) {
+		return roomsCSV.create(room);
 	}
 
 }

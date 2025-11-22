@@ -49,15 +49,14 @@ public class UserFactory {
 		user.setUserType(userType);
 		
 		// hydrate the user with bookings and account role
-		ICSVRepository csv = CSVRepository.getInstance();
+		Mediator mediator = Mediator.getInstance();
 		
 		for (String bookingId : bookingIds){
-			Booking booking = csv.getBookingById(bookingId);
+			Booking booking = mediator.getBookingById(bookingId);
 			user.addBooking(booking);
 		}
 		
-		String accountRoleRow = csv.getAccountRoleRowById(user.getAccountRole().getId());
-    	AccountRole accountRole = new AccountRole(accountRoleRow);
+    	AccountRole accountRole = mediator.getAccountRoleRowById(user.getAccountRole().getId());
     	user.setAccountRole(accountRole);
 		
 		return user;

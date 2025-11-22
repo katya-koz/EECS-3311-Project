@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.openjfx.EECS_3311_Project.Mediator;
 import org.openjfx.EECS_3311_Project.Session;
@@ -36,7 +37,7 @@ public class BookingFormController {
     @FXML private VBox timePicker;
     @FXML private VBox roomPicker;
     private final java.util.List<LocalTime> selectedTimes = new ArrayList<>();
-    private ArrayList<Booking> bookingsForDay = new ArrayList<Booking>();
+    private List<Booking> bookingsForDay = new ArrayList<Booking>();
     
     private Room selectedRoom; 
     private LocalDate selectedDate; 
@@ -71,11 +72,10 @@ public class BookingFormController {
     	    // combine with the selected date
     	    LocalDateTime startDateTime = LocalDateTime.of(selectedDate, startTime);
     	    LocalDateTime endDateTime = LocalDateTime.of(selectedDate, endTime);
-
-
     	    Booking newBooking = new Booking( selectedRoom.getId(), Session.getUser().getId(), startDateTime, endDateTime);
+
     	    Session.setNewBooking(newBooking);
-    	    
+
     	    SceneManager.changeScene(event, "BookingEdit.fxml", "Edit Booking");
     	} else {
 		    // show alert if no time selected

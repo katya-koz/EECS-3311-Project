@@ -1,5 +1,6 @@
 package org.openjfx.EECS_3311_Project.managers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.EECS_3311_Project.csv.UserCSVOperations;
@@ -7,12 +8,10 @@ import org.openjfx.EECS_3311_Project.model.User;
 
 public class UserManager {
 	
-	//ICSVRepository csvRepository = CSVRepository.getInstance();
 	UserCSVOperations userCSV = new UserCSVOperations();
 
 	public User createAccount(User user) {
 		return userCSV.create(user);
-		//return csvRepository.createAccount(user);
 	}
 
 	public boolean isEmailTaken(String text) {
@@ -26,10 +25,16 @@ public class UserManager {
 		if (userOpt.isPresent()) return userOpt.get();
 		return null;
 	}
-
-//	public ArrayList<AccountRole> getAccountRoles() {
-//		return csvRepository.getAccountRoles();
-//	}
+	
+	public List<User> getAllUsers() {
+		return userCSV.readAll();
+	}
+	
+	public User getUserById(String userId) {
+		Optional<User> userOpt = userCSV.readById(userId);
+		if (userOpt.isPresent()) return userOpt.get();
+		return null;
+	}
 
 
 }
