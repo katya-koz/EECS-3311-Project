@@ -19,7 +19,7 @@ public class RoomManager {
 
 
 	public Room upsertRoom(Room room) {
-		return roomsCSV.create(room);
+		return roomsCSV.upsert(room);
 	}
 
 }

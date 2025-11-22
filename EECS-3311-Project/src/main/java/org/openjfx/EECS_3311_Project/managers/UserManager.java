@@ -36,5 +36,18 @@ public class UserManager {
 		return null;
 	}
 
+	public List<User> getAllUsersNotId(String id) {
+		return userCSV.readMany((user, cols) -> !user.getId().equals(id));
+		
+	}
+
+	public User saveUser(User user) {
+		return userCSV.upsert(user);
+	}
+
+	public List<User> getManyByIds(List<String> attendeeIds) {
+		return userCSV.readMany((user, cols) -> attendeeIds.contains(user.getId()));
+	}
+
 
 }

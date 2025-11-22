@@ -16,8 +16,16 @@ public class User implements ICSVDataObject {
 	private AccountRole accountRole;
 	
 	public Booking addBooking(Booking booking) {
-		this.bookings.add(booking);
-		return booking;
+	    if (booking == null) return null;
+
+	    boolean exists = bookings.stream().anyMatch(b -> b.getId().equals(booking.getId()));
+
+	    if (!exists) {
+	        bookings.add(booking);
+	        return booking;
+	    }
+
+	    return null;
 	}
 	
 	public String toCSVRow() {// update to join by comma, added suppoort for bookings
@@ -90,6 +98,11 @@ public class User implements ICSVDataObject {
 
 	public void setAccountRole(AccountRole accountType) {
 		this.accountRole = accountType;
+	}
+
+	public void removeBooking(Booking booking) {
+		this.bookings.remove(booking);
+		
 	}
 	
 	

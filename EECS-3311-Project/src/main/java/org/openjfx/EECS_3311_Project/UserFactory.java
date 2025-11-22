@@ -1,6 +1,7 @@
 package org.openjfx.EECS_3311_Project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 import org.openjfx.EECS_3311_Project.model.AccountRole;
@@ -29,37 +30,40 @@ public class UserFactory {
 	}
 	// maybe its bad that we are calling a repository from the factory, but i think its cleanest this way: only have to worry about one method call to make/load a user
 	public static User loadFromCSV(String csvRow) {
-		User user = new User();
-		String[] cols = csvRow.split(",", -1); // -1 keeps empty spaces
-		String id = cols[0].trim();
-        String firstName = cols[1].trim();
-        String lastName = cols[2].trim();
-        String email = cols[3].trim();
-        String password = cols[4].trim();
-        String userType = cols[5].trim();
-       
-        String[] bookingIds = cols[6].trim().replace("[", "").replace("]", "").split(";",0);
-        String accountRoleId = cols[7].trim();
-        
-        user.setId(id);
-        user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setEmail(email);
-		user.setPassword(password);
-		user.setUserType(userType);
-		
-		// hydrate the user with bookings and account role
-		Mediator mediator = Mediator.getInstance();
-		
-		for (String bookingId : bookingIds){
-			Booking booking = mediator.getBookingById(bookingId);
-			user.addBooking(booking);
-		}
-		
-    	AccountRole accountRole = mediator.getAccountRoleRowById(user.getAccountRole().getId());
-    	user.setAccountRole(accountRole);
-		
-		return user;
+	    User user = new User();
+
+	    // Trim all columns
+	    String[] cols = Arrays.stream(csvRow.split(",", -1)).map(String::trim).toArray(String[]::new);
+
+	    user.setId(cols[0]);
+	    user.setFirstName(cols[1]);
+	    user.setLastName(cols[2]);
+	    user.setEmail(cols[3]);
+	    user.setPassword(cols[4]);
+	    user.setUserType(cols[5]);
+
+	    // Clean and split bookings
+	    String rawBookings = cols[6].replace("[", "").replace("]", "").trim();
+	    String[] bookingIds = rawBookings.isEmpty()
+	            ? new String[0]
+	            : rawBookings.split(";");
+
+	    Mediator mediator = Mediator.getInstance();
+
+	    for (String bookingId : bookingIds) {
+	        if (bookingId.isBlank()) continue;
+
+	        Booking booking = mediator.getBookingById(bookingId.trim());
+	        if (booking != null) {
+	            user.addBooking(booking);
+	        }
+	    }
+
+	    AccountRole accountRole =
+	            mediator.getAccountRoleRowById(cols[7].trim());
+	    user.setAccountRole(accountRole);
+
+	    return user;
 	}
 
 }

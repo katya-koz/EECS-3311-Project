@@ -35,7 +35,7 @@ public class BookingCSVOperations extends CSVOperations<Booking>{
 								safe(booking.getStartTime().toString()),
 								safe(booking.getEndTime().toString()),
 								booking.getCheckInTime() == null ? "" : booking.getCheckInTime().toString(),
-								booking.getStatus() == null ? "" : booking.getStatus().name()
+								booking.getStudentOrOrganizationId()
 							};
 	}
 

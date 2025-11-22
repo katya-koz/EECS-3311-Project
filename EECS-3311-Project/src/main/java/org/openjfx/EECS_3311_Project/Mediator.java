@@ -1,6 +1,8 @@
 package org.openjfx.EECS_3311_Project;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +22,7 @@ public class Mediator {
      private final UserManager userManager = new UserManager();
      private final AccountRoleManager accountRoleManager = new AccountRoleManager();
      private final RoomManager roomManager = new RoomManager();
-    // private final PaymentManager paymentManager;
+     private final PaymentManager paymentManager = new PaymentManager();
      
      
      public static Mediator getInstance() {
@@ -77,15 +79,7 @@ public class Mediator {
 	public List<Booking> getBookingsByRoomAndDate(String roomId, LocalDate date) {
 		return bookingManager.getBookingsByRoomAndDate(roomId,  date);
 	}
-	
-	
-//	public void addAttendeeToBooking(User user, Booking booking ) {
-//		bookingManager.inviteUser(user, booking);
-//	}
-//	
-//	public void removeAttendeeFromBooking(Booking booking, String userId) {
-//        bookingManager.removeAttendee(booking, userId);
-//    }
+
 	
 	public Booking saveBooking(Booking booking) {
         return bookingManager.upsertBooking(booking);
@@ -106,6 +100,33 @@ public class Mediator {
 
 	public AccountRole getAccountRoleRowById(String id) {
 		return accountRoleManager.getAccountRoleById(id);
+	}
+
+	public boolean validatePayment(String cardNum) {
+		return paymentManager.isValidLuhn(cardNum);
+		
+	}
+
+	public List<User> getPossibleInvitees(String id) {
+		return userManager.getAllUsersNotId(id);
+	}
+
+	public User saveUser(User user) {
+		return userManager.saveUser(user);
+		
+	}
+
+	public List<User> getManyUsersByIds(List<String> attendeeIds) {
+		return userManager.getManyByIds(attendeeIds);
+	}
+
+	public LocalDateTime getLastestEndTime(String roomId, LocalDateTime endTime) {
+		return bookingManager.getLatestEndTime(roomId,endTime );
+	}
+
+	public Booking cancelBooking(Booking booking) {
+		return bookingManager.cancelBooking(booking);
+		
 	}
 	
 	

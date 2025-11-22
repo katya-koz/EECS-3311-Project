@@ -1,14 +1,9 @@
 package org.openjfx.EECS_3311_Project.managers;
-
-import org.openjfx.EECS_3311_Project.Session;
 import org.openjfx.EECS_3311_Project.csv.BookingCSVOperations;
 import org.openjfx.EECS_3311_Project.model.Booking;
-import org.openjfx.EECS_3311_Project.model.Status;
-import org.openjfx.EECS_3311_Project.model.User;
-
-import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -182,6 +177,33 @@ public class BookingManager {
 
 	public Booking upsertBooking(Booking booking) {
 		return bookingCSV.upsert(booking);
+	}
+
+
+	public LocalDateTime getLatestEndTime(String roomId, LocalDateTime endTime) {
+		List<Booking> bookings = getBookingsByRoomAndDate(roomId, endTime.toLocalDate());
+		LocalDateTime latestEnd = LocalDateTime.of(endTime.toLocalDate(), LocalTime.of(22, 0));
+		
+		// with all bookings, get the next booking time that starts after the given end time.
+		for (Booking b : bookings) {
+			LocalDateTime nextStart = b.getStartTime();
+			// we only care about bookings that start after the current end time
+			if (nextStart.isAfter(endTime)) {
+				// take the earliest such booking as the limit
+				if (nextStart.isBefore(latestEnd)) {
+					latestEnd = nextStart;
+			}
+		}
+}
+		// if not found, then return end of day (10 pm, hardcoded lol)
+		
+		return latestEnd;
+	}
+
+
+	public Booking cancelBooking(Booking booking) {
+		bookingCSV.delete(booking);
+		return booking;
 	}
 
 

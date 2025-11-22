@@ -64,6 +64,7 @@ public class HomePageController implements Initializable {
 
         
         //set the data to the observable lists
+      
         ObservableList<Booking> hostBookings = FXCollections.observableArrayList(Session.getUser().getBookings());
         ObservableList<Booking> invitedBookings = FXCollections.observableArrayList(mediator.getAllInvitedBookings(Session.getUser().getId()));
         

@@ -10,7 +10,7 @@ public class RoomCSVOperations extends CSVOperations<Room>{
 
 	@Override
 	protected Path getCSVPath() {
-		return DatabaseUtils.userFilePath;
+		return DatabaseUtils.roomsFilePath;
 	}
 
 	@Override
