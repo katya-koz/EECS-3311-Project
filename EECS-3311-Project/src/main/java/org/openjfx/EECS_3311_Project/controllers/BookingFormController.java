@@ -76,7 +76,13 @@ public class BookingFormController {
     	    Booking newBooking = new Booking(selectedRoom.getRoomId(), Session.getUser().getId(), startDateTime, endDateTime);
 
     	    Session.setNewBooking(newBooking);
+<<<<<<< HEAD
     
+=======
+    	    
+    	    
+    	    
+>>>>>>> refs/heads/detached
     	    SceneManager.changeScene(event, "BookingEdit.fxml", "Edit Booking");
     	} else {
 		    // show alert if no time selected

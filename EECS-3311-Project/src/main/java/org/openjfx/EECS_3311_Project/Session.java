@@ -22,8 +22,13 @@ public class Session {
     
     public static Page getCurrentPage() { return currentPage; }
     public static void setCurrentPage(Page p) { currentPage = p; }
+<<<<<<< HEAD
 	public static void setNewBooking(Booking newBooking) {
 		Session.newBooking = newBooking;
+=======
+	public static void setNewBooking(Booking b) {
+		newBooking = b;
+>>>>>>> refs/heads/detached
 		
 	}
 	

@@ -91,6 +91,15 @@ public class Mediator {
         return bookingManager.saveBooking(bookingId);
     }
 	
+	public ArrayList<Booking> getAllHostBookings(String userId)
+	{
+		return bookingManager.getAllHostBookings(userId);
+	}
+	public ArrayList<Booking> getAllInvitedBookings(String userId)
+	{
+		return bookingManager.getAllInvitedBookings(userId);
+	}
+	
 	
 
 	

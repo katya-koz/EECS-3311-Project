@@ -1,6 +1,7 @@
 package org.openjfx.EECS_3311_Project.controllers;
 
 import java.net.URL;
+<<<<<<< HEAD
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,11 +19,16 @@ import javafx.scene.text.Text;
 
 
 import org.openjfx.EECS_3311_Project.Mediator;
+=======
+import java.util.ResourceBundle;
+
+>>>>>>> refs/heads/detached
 import org.openjfx.EECS_3311_Project.Session;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.Booking;
 import org.openjfx.EECS_3311_Project.model.User;
 
+<<<<<<< HEAD
 public class BookingEditController implements Initializable {
 	@FXML
 	private TextField bookingName;
@@ -41,7 +47,13 @@ public class BookingEditController implements Initializable {
 	
 	private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 	Mediator mediator = Mediator.getInstance();
+=======
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+>>>>>>> refs/heads/detached
 
+<<<<<<< HEAD
 	private Booking currentBooking;
 	
 	@Override
@@ -60,6 +72,29 @@ public class BookingEditController implements Initializable {
 		LocalDateTime end = booking.getEndTime();
 		String dateTimeText = start.format(timeFormatter) + " - " + end.format(timeFormatter);
 		dateTime.setText(dateTimeText);
+=======
+public class BookingEditController implements Initializable{
+	
+	@FXML
+	private Label text_name;
+
+    private Booking booking; 
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+    	booking = Session.getNewBooking();
+    	
+    	if (booking != null)
+    	{
+    		text_name.setText("Editing Booking for: " + booking.getName());
+    	}
+    	else
+    	{
+    		text_name.setText("Error: No booking selected");
+    	}
+    }
+>>>>>>> refs/heads/detached
 
 		hostEmail.setText(user.getEmail());
 
