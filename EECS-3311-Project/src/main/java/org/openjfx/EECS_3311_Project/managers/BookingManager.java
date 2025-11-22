@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class BookingManager {
 
@@ -95,6 +95,34 @@ public class BookingManager {
 			}
 		}
 		booking.setAttendeeIds(attendees);
+	}
+	
+	
+	public void removeAttendee(Booking booking, String userId) {
+		if(userId.isEmpty()) {
+			return;
+		}
+		List<String> attendeeIds= booking.getAttendeeIds();
+		
+		if (attendeeIds == null) {
+			return;
+		}
+		if (attendeeIds.remove(userId)) {
+			csv.upsertBooking(booking);
+		}
+	}
+	
+
+	public void inviteUser(User user, Booking booking) {
+		if (user == null || booking == null) {
+			return;
+		}
+
+		ArrayList<User> userList = new ArrayList<>();
+		userList.add(user);
+
+		inviteUsers(userList, booking);
+		csv.upsertBooking(booking);
 	}
 	
 	

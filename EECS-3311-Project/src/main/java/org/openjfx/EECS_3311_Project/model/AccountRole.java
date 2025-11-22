@@ -11,10 +11,10 @@ public class AccountRole implements ICSVDataObject{
 		this.roleName = name;
 		this.hourlyRate = hourlyRate;
 	}
+	
 	public AccountRole() {
 	}
 	
-
 	public AccountRole(String csvRow) {
 		String[] parts=csvRow.split(",");
 		try{

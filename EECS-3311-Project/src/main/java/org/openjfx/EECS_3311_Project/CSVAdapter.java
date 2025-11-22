@@ -23,15 +23,11 @@ public class CSVAdapter implements ICSVRepository{
 	
 	public static CSVAdapter getInstance() {
 		
-		
 		if(instance == null) instance = new CSVAdapter();
 		return instance;
 	}
 //    private final String userDB_CSV = "UserDB.csv";
 //    private final String bookingDB = "BookingDB.csv";
-
-	
-
 
     public Booking upsertBooking(Booking booking) {
         ArrayList<Booking> all = getAllBookingsFromFile();
@@ -375,7 +371,6 @@ public class CSVAdapter implements ICSVRepository{
     }
 
     public User validateAndGetUser(String email, String password) {
-
         //if whitespace was entered in the email, remove it
         String cleanEmail = email.trim();
         //String cleanPassword = password.trim();
@@ -453,7 +448,6 @@ public class CSVAdapter implements ICSVRepository{
 
 	@Override
 	public ArrayList<Room> getAllRooms() {
-			
 		        ArrayList<Room> rooms = new ArrayList<>();
 
 		        try {
@@ -471,8 +465,6 @@ public class CSVAdapter implements ICSVRepository{
 		        return rooms;
 		    
 	}
-
-
 
 
 
@@ -606,7 +598,4 @@ public class CSVAdapter implements ICSVRepository{
 
 	    return bookings;
 	}
-
-
-
 }
