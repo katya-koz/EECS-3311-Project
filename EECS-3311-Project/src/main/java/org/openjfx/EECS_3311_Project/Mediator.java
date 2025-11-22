@@ -129,6 +129,11 @@ public class Mediator {
 		
 	}
 	
+	//public Booking checkIntoBooking(Booking booking) {
+	//	return bookingManager.cancelBooking(booking);
+		
+	//}
+	
 	public UserManager getUserManager() {
 	    return userManager;
 	}

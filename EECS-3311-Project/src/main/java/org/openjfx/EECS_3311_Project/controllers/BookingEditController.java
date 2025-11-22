@@ -154,19 +154,28 @@ public class BookingEditController implements Initializable {
         modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
         modalStage.setTitle("Booking Deposit Payment");
 
-        VBox root = new VBox(15);
+        VBox root = new VBox(5);
         root.setPadding(new javafx.geometry.Insets(20));
         root.setStyle("-fx-background-color: #f0f0f0;");
 
         Label priceLabel = new Label(String.format("Deposit amount due: $%.2f", price));
         priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        Label cardNumberLabel = new Label("Enter Card Number: ");
+        cardNumberLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField cardNumberField = new TextField();
         cardNumberField.setPromptText("Card Number (16 digits)");
 
+        Label CSVLabel = new Label("Enter CSV: ");
+        CSVLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField csvField = new TextField();
         csvField.setPromptText("CSV (3 digits)");
 
+        Label expLabel = new Label("Expiration Date(MM/YY): ");
+        expLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField expiryField = new TextField();
         expiryField.setPromptText("Expiry (MM/YY)");
 
@@ -202,8 +211,7 @@ public class BookingEditController implements Initializable {
             }
         });
 
-        root.getChildren().addAll(priceLabel, cardNumberField, csvField, expiryField, errorLabel, payButton);
-
+        root.getChildren().addAll(priceLabel, cardNumberLabel, cardNumberField, CSVLabel, csvField, expLabel, expiryField, errorLabel, payButton);
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();
