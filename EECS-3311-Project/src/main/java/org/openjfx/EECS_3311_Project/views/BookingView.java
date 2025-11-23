@@ -124,6 +124,7 @@ public class BookingView extends ListCell<Booking>
                 		 Mediator.getInstance().saveBooking(currentBooking);
                 		 Session.setEditBooking(currentBooking);
                 		 
+                		 
                 		 Alert successAlert2 = new Alert(Alert.AlertType.INFORMATION);
                 		 successAlert2.setTitle("Checked into Booking");
                 		 successAlert2.setHeaderText("Success!");
