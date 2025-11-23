@@ -132,6 +132,8 @@ public class BookingView extends ListCell<Booking>
                 		 checkInButton.setVisible(false);
                          checkInButton.setManaged(false);
                 		 getListView().refresh();
+                         //SceneManager.changeScene(event, "BookingEdit.fxml", "Edit Booking");
+                		 
                 	 }
                  });
                  
