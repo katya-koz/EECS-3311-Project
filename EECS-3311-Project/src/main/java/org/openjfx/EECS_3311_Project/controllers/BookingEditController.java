@@ -464,7 +464,7 @@ public class BookingEditController implements Initializable {
                     LocalDateTime proposedEnd = currentBooking.getEndTime().plus(extension);
                     setDisable(proposedEnd.isAfter(latestEndTime));
                     
-                    System.out.println("Proposed: " + proposedEnd + ", Latest: " + latestEndTime);
+                   // System.out.println("Proposed: " + proposedEnd + ", Latest: " + latestEndTime);
                 }
             }
         });

@@ -200,32 +200,27 @@ public class BookingManager {
 
 
 	public LocalDateTime getLatestEndTime(String roomId, LocalDateTime endTime) {
-		List<Booking> bookings = getBookingsByRoomAndDate(roomId, endTime.toLocalDate());
-		LocalDateTime latestEnd = LocalDateTime.of(endTime.toLocalDate(), LocalTime.of(22, 0));
-		
-		// with all bookings, get the next booking time that starts after the given end time.
-		for (Booking b : bookings) {
-			LocalDateTime nextStart = b.getStartTime();
-			// we only care about bookings that start after the current end time
-			if (nextStart.isAfter(endTime)) {
-				// take the earliest such booking as the limit
-				if (nextStart.isBefore(latestEnd)) {
-					latestEnd = nextStart;
-			}
-		}
-}
-		// if not found, then return end of day (10 pm, hardcoded lol)
-		
-		return latestEnd;
-	}
-	
-	
+	    List<Booking> bookings = getBookingsByRoomAndDate(roomId, endTime.toLocalDate());
 
+	    LocalDateTime limit = null;
 
-	public Booking cancelBooking(Booking booking) {
-		bookingCSV.delete(booking);
-		booking.setCancelled(true);
-		return booking;
+	    for (Booking b : bookings) {
+	        LocalDateTime nextStart = b.getStartTime();
+
+	        // only consider bookings that start after/on the current meeting end time
+	        if (nextStart.isAfter(endTime) || nextStart.equals(endTime)) {
+	            // find the earliest start time
+	            if (limit == null || nextStart.isBefore(limit)) {
+	                limit = nextStart;
+	            }
+	        }
+	    }
+
+	    if (limit == null) {
+	        return endTime.toLocalDate().atTime(22, 0);
+	    }
+
+	    return limit;
 	}
 	
 

@@ -260,6 +260,7 @@ public class BookingFormController {
         LocalTime current = start;
 
         // If user selected a past date, you can bail out or show a message
+        // this wouldnt happen because you cant click on old day cells.
         if (date.isBefore(today)) {
             // optionally show "no times available"
             scroll.setContent(timesContainer);
