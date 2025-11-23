@@ -29,11 +29,15 @@ public class User implements ICSVDataObject {
 	}
 	
 	public String toCSVRow() {// update to join by comma, added suppoort for bookings
+		String roleId = (this.getAccountRole() == null || this.getAccountRole().getId() == null)
+		        ? ""
+		        : this.getAccountRole().getId();
+		
 		String bookings = this.getBookings().stream()
 		        .map(Booking::getId)     
 		        .map(String::valueOf)   
 		        .collect(Collectors.joining(";")); 
-		return String.join(",", id, this.getFirstName(), this.getLastName(), this.getEmail(), this.getPassword(), this.getUserType(), "[" + bookings + "]", this.getAccountRole().getId());
+		return String.join(",", id, this.getFirstName(), this.getLastName(), this.getEmail(), this.getPassword(), this.getUserType(), "[" + bookings + "]", roleId);
 	}
 	
 	public String getId() {
@@ -104,6 +108,7 @@ public class User implements ICSVDataObject {
 		this.bookings.remove(booking);
 		
 	}
+	
 	
 	
 }

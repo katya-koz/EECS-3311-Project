@@ -146,6 +146,8 @@ public class Mediator {
 		
 	}
 	
-
+	public AccountRoleManager getAccountRoleManager() {
+	    return accountRoleManager;
+	}
 	
 }

@@ -51,7 +51,16 @@ public class UserManager {
 	}
 	
 	
-	
+	public void toggleAdmin(String userId, boolean isAdmin) {
+	    Optional<User> userOpt = userCSV.readById(userId);
+
+	    if (userOpt.isPresent()) {
+	        User user = userOpt.get();
+	        user.setUserType(isAdmin ? "Admin" : "User");
+
+	        userCSV.upsert(user);  
+	    }
+	}
 
 }
 

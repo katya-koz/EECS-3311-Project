@@ -1,6 +1,7 @@
 package org.openjfx.EECS_3311_Project.controllers;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.openjfx.EECS_3311_Project.Mediator;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
 
 public class CECController {
 
@@ -54,9 +56,8 @@ public class CECController {
 		HBox row = new HBox(20);
 		row.setStyle("-fx-padding: 5; -fx-alignment: center-left;");
 
-		TextField emailField = new TextField(user.getEmail());
-		emailField.setEditable(false);
-		emailField.setPrefWidth(250);
+		Label emailLabel = new Label(user.getEmail());
+		emailLabel.setPrefWidth(250);
 
 		boolean isAdmin = user.getUserType().equalsIgnoreCase("Admin");
 
@@ -66,17 +67,28 @@ public class CECController {
 		adminCheck.setOnAction(e -> {
 			boolean newValue = adminCheck.isSelected();
 
-			Mediator.getInstance().toggleAdmin(user, newValue);
-			user.setUserType(newValue ? "Admin" : "User");
+			Mediator.getInstance().getUserManager().toggleAdmin(user.getId(), newValue);
+
+		    user.setUserType(newValue ? "Admin" : "User");
 		});
 
-		row.getChildren().addAll(emailField, adminCheck);
+		row.getChildren().addAll(emailLabel, adminCheck);
 		return row;
 	}
 
 	@FXML
 	public void getRolesEditorPage() {
-		// coming later
+		  try {
+		        FXMLLoader loader = new FXMLLoader(
+		            getClass().getResource("/fxml/cectools/cec_roles.fxml")
+		        );
+
+		        Node page = loader.load();
+		        contentArea.getChildren().setAll(page);
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 	}
 }
 

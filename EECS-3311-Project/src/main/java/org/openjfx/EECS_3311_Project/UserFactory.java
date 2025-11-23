@@ -59,8 +59,23 @@ public class UserFactory {
 	        }
 	    }
 
-	    AccountRole accountRole =
-	            mediator.getAccountRoleRowById(cols[7].trim());
+	    String roleId = cols[7].trim();
+	    AccountRole accountRole;
+
+	    if (roleId.isEmpty()) {
+	        
+	        accountRole = mediator.getAccountRoleRowById("0");
+
+	        
+	        if (accountRole == null) {
+	            accountRole = mediator.getAccountRoles().isEmpty()
+	                    ? null
+	                    : mediator.getAccountRoles().get(0);
+	        }
+	    } else {
+	        accountRole = mediator.getAccountRoleRowById(roleId);
+	    }
+
 	    user.setAccountRole(accountRole);
 
 	    return user;
