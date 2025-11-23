@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.openjfx.EECS_3311_Project.controllers.AdminsPageController"
+            fitToWidth="true">
+
+    <VBox spacing="10">
+        
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Admin Editor"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <VBox fx:id="adminsList"
+              spacing="8" />
+    </VBox>
+
+</ScrollPane>

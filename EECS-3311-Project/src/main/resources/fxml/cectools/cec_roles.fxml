@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.openjfx.EECS_3311_Project.controllers.RolesPageController"
+      spacing="15" style="-fx-padding: 20;">
+
+    <Label text="Account Types"
+           style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+    <Button text="Add New Account Type"
+            onAction="#onAddRole"
+            style="-fx-padding: 8 16;"/>
+
+    <VBox fx:id="rolesList" spacing="10"/>
+</VBox>
