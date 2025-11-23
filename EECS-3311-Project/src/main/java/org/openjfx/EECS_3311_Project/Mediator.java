@@ -129,6 +129,7 @@ public class Mediator {
 		
 	}
 	
+	
 	public UserManager getUserManager() {
 	    return userManager;
 	}

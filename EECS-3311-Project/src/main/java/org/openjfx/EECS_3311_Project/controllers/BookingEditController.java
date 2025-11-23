@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -49,7 +50,6 @@ public class BookingEditController implements Initializable {
     private VBox attendeesList;
     @FXML
     private ComboBox<String> comboExtendTime;
-    
     @FXML
     private Button comboExtendTimeBtn;
     
@@ -144,29 +144,88 @@ public class BookingEditController implements Initializable {
         	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu"); 
         	} // skip payment
         
-        else {showPaymentModal(event);}
+        else {showPaymentSelection(event);}
         
         
     }
     
-    private void showPaymentModal(ActionEvent event) {
+    private void showPaymentSelection(ActionEvent event) {
+    	javafx.stage.Stage modalStage = new javafx.stage.Stage();
+        modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+    	modalStage.setTitle("Payment Method Selection");
+
+        VBox root1 = new VBox(5); root1.setPadding(new javafx.geometry.Insets(20));
+        root1.setStyle("-fx-background-color: #f0f0f0;");
+
+        Label selectionLabel = new Label("Please Select Payment Method: ");
+        selectionLabel.setStyle("-fx-font-size: 22px; -fx-font-weight: bold");
+        selectionLabel.setAlignment(Pos.TOP_CENTER);
+
+        Button creditButton = new Button("Credit Card");
+        creditButton.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        creditButton.setAlignment(Pos.TOP_CENTER);
+
+        Button debitButton = new Button("Debit Card");
+        debitButton.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        debitButton.setAlignment(Pos.TOP_CENTER);
+
+        Button institutionalButton = new Button("Institutional Billing");
+        institutionalButton.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        institutionalButton.setAlignment(Pos.TOP_CENTER);
+        
+        creditButton.setOnAction(e -> {
+        	showCreditModal(e);
+        	modalStage.close();
+        });
+        
+        debitButton.setOnAction(e -> {
+        	showDebitModal(e);
+        	modalStage.close();
+        });
+        
+        institutionalButton.setOnAction(e ->{
+        	showInstitutionalModal(e);
+        	modalStage.close();
+        });
+        
+        root1.getChildren().addAll(selectionLabel, creditButton, debitButton, institutionalButton);
+        Scene scene1 = new javafx.scene.Scene(root1, 400, 300);
+        modalStage.setScene(scene1);
+        modalStage.showAndWait();
+        
+        SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+        
+       
+    }
+    
+    
+    private void showCreditModal(ActionEvent event) {
         javafx.stage.Stage modalStage = new javafx.stage.Stage();
         modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-        modalStage.setTitle("Booking Deposit Payment");
+        modalStage.setTitle("Credit Card Deposit Payment");
 
-        VBox root = new VBox(15);
+        VBox root = new VBox(5);
         root.setPadding(new javafx.geometry.Insets(20));
         root.setStyle("-fx-background-color: #f0f0f0;");
 
         Label priceLabel = new Label(String.format("Deposit amount due: $%.2f", price));
         priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        Label cardNumberLabel = new Label("Enter Credit Card Number (16 digits): ");
+        cardNumberLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField cardNumberField = new TextField();
         cardNumberField.setPromptText("Card Number (16 digits)");
 
+        Label CSVLabel = new Label("Enter CSV: ");
+        CSVLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField csvField = new TextField();
         csvField.setPromptText("CSV (3 digits)");
 
+        Label expLabel = new Label("Expiration Date(MM/YY): ");
+        expLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
         TextField expiryField = new TextField();
         expiryField.setPromptText("Expiry (MM/YY)");
 
@@ -202,14 +261,15 @@ public class BookingEditController implements Initializable {
             }
         });
 
-        root.getChildren().addAll(priceLabel, cardNumberField, csvField, expiryField, errorLabel, payButton);
-
+        root.getChildren().addAll(priceLabel, cardNumberLabel, cardNumberField, CSVLabel, csvField, expLabel, expiryField, errorLabel, payButton);
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();
         
-    	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+        SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
+    
+    
     
     public static String parseCard(String cardNumber) {
         if (cardNumber == null || cardNumber.length() <= 4) {
@@ -223,6 +283,17 @@ public class BookingEditController implements Initializable {
         return masked + lastFour;
     }
 
+    public static String parseInstitutional(String institutionalNumber) {
+        if (institutionalNumber == null || institutionalNumber.length() <= 4) {
+            return institutionalNumber;
+        }
+
+        int length = institutionalNumber.length();
+        String lastFour = institutionalNumber.substring(length - 4);
+        String masked = "*".repeat(length - 4);
+
+        return masked + lastFour;
+    }
     
     private String validatePaymentFields(String card, String csv, String expiry) {
         if (card.isBlank() || !card.matches("\\d{16}")) {
@@ -399,5 +470,149 @@ public class BookingEditController implements Initializable {
                 }
             }
         });
+    }
+    
+    private void showDebitModal(ActionEvent event) {
+        javafx.stage.Stage modalStage = new javafx.stage.Stage();
+        modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modalStage.setTitle("Debit Card Deposit Payment");
+
+        VBox root = new VBox(5);
+        root.setPadding(new javafx.geometry.Insets(20));
+        root.setStyle("-fx-background-color: #f0f0f0;");
+
+        Label priceLabel = new Label(String.format("Deposit amount due: $%.2f", price));
+        priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label cardNumberLabel = new Label("Enter Debit Card Number (16 digits): ");
+        cardNumberLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        TextField cardNumberField = new TextField();
+        cardNumberField.setPromptText("Card Number (16 digits)");
+
+        Label CSVLabel = new Label("Enter CSV: ");
+        CSVLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        TextField csvField = new TextField();
+        csvField.setPromptText("CSV (3 digits)");
+
+        Label expLabel = new Label("Expiration Date(MM/YY): ");
+        expLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        TextField expiryField = new TextField();
+        expiryField.setPromptText("Expiry (MM/YY)");
+
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        Button payButton = new Button("Submit Payment");
+        payButton.setStyle("-fx-font-weight: bold;");
+
+        payButton.setOnAction(e -> {
+            String card = cardNumberField.getText().trim();
+            String csv = csvField.getText().trim();
+            String expiry = expiryField.getText().trim();
+
+            String validationError = validatePaymentFields(card, csv, expiry);
+            if (validationError != null) {
+                errorLabel.setText(validationError);
+            } else {
+                mediator.saveBooking(currentBooking);
+                // need to also save the user.
+                Session.getUser().addBooking(currentBooking);
+                mediator.saveUser(Session.getUser());
+                modalStage.close();
+                Payment payment = new Payment(price, parseCard(card), Session.getUser().getId());
+                
+                mediator.createPaymentRecord(payment);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Payment Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Payment completed successfully!");
+                alert.showAndWait();
+            }
+        });
+
+        root.getChildren().addAll(priceLabel, cardNumberLabel, cardNumberField, CSVLabel, csvField, expLabel, expiryField, errorLabel, payButton);
+        Scene scene = new javafx.scene.Scene(root, 400, 300);
+        modalStage.setScene(scene);
+        modalStage.showAndWait();
+        
+    	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+    }
+    
+    private void showInstitutionalModal(ActionEvent event) {
+        javafx.stage.Stage modalStage = new javafx.stage.Stage();
+        modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        modalStage.setTitle("Institutional Billing Deposit Payment");
+
+        VBox root = new VBox(5);
+        root.setPadding(new javafx.geometry.Insets(20));
+        root.setStyle("-fx-background-color: #f0f0f0;");
+
+        Label priceLabel = new Label(String.format("Deposit amount due: $%.2f", price));
+        priceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+        Label InstitutionalBillingLabel = new Label("Enter Institutinal Biling Number (10 digits): ");
+        InstitutionalBillingLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        TextField InstitutionalBillingField = new TextField();
+        InstitutionalBillingField.setPromptText("Institutinal Biling Number (10 digits)");
+
+        Label InstitutionalNameLabel = new Label("Enter Your Name: ");
+        InstitutionalNameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        
+        TextField InstitutionalNameField = new TextField();
+        InstitutionalNameField.setPromptText("Enter Your Name");
+
+
+        Label errorLabel = new Label();
+        errorLabel.setStyle("-fx-text-fill: red;");
+
+        Button payButton = new Button("Submit Payment");
+        payButton.setStyle("-fx-font-weight: bold;");
+
+        payButton.setOnAction(e -> {
+            String InstitutionalBilling = InstitutionalBillingField.getText().trim();
+            String InstitutionalName = InstitutionalNameField.getText().trim();
+        
+            String validationError = validateInstitutionalFields(InstitutionalBilling, InstitutionalName);
+            if (validationError != null) {
+                errorLabel.setText(validationError);
+            } else {
+                mediator.saveBooking(currentBooking);
+                // need to also save the user.
+                Session.getUser().addBooking(currentBooking);
+                mediator.saveUser(Session.getUser());
+                modalStage.close();
+                Payment payment = new Payment(price, parseInstitutional(InstitutionalBilling), Session.getUser().getId());
+                
+                mediator.createPaymentRecord(payment);
+                
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Payment Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Payment completed successfully!");
+                alert.showAndWait();
+            }
+        });
+
+        root.getChildren().addAll(priceLabel, InstitutionalBillingLabel, InstitutionalBillingField, InstitutionalNameLabel, InstitutionalNameField, errorLabel, payButton);
+        Scene scene = new javafx.scene.Scene(root, 400, 300);
+        modalStage.setScene(scene);
+        modalStage.showAndWait();
+        
+    	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+    }
+    private String validateInstitutionalFields(String number, String name) {
+        if (number.isBlank() || !number.matches("\\d{10}")) {
+            return "Institutional Number Must Be 10 digits";
+        }
+        if (name.isBlank()) {
+            return "Please Enter Your Name.";
+        }
+        
+        return null;
     }
 }
