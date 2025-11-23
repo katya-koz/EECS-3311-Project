@@ -23,6 +23,7 @@ public class Payment implements ICSVDataObject{
         this.userId = tokens[2];
     }
     
+    
 	public String toCSVRow() {
 		// id, amount, lastDigitsOfCard, userId
 		return String.join(",", this.id, ""+this.amount, this.cardNumber, this.userId);
