@@ -134,6 +134,12 @@ public class BookingEditController implements Initializable {
             return;
         }
         
+        if (studentId.length() != 9) {
+                
+                showAlert("Invalid ID","Invalid student or organization ID.", "A valid student or organization ID is 9 digits.", Alert.AlertType.ERROR);
+                return;
+            }
+        
         currentBooking.setName(newName);
         currentBooking.setStudentOrOrganizationId(studentId);
 
