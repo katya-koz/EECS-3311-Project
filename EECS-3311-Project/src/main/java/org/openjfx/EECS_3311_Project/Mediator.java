@@ -1,5 +1,6 @@
 package org.openjfx.EECS_3311_Project;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -169,7 +170,17 @@ public class Mediator {
 		return bookingManager.getPaymentFromBooking(booking);
 	}
 	
-	public double computePrice(Booking booking, AccountRole role) {
+	public double computeTotalPrice(Booking booking, AccountRole role) {
+
+		double hours = Duration.between(booking.getStartTime(), booking.getEndTime()).toMinutes() / 60.0;
+		System.out.println(hours);
+		
+		return booking.calculateFullPrice(role, hours);
+		
+		
+	}
+	
+	public double computeDepositPrice(Booking booking, AccountRole role) {
 		return booking.calculateDepositPrice(role);
 	}
 }

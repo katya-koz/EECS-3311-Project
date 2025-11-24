@@ -181,7 +181,13 @@ public class Booking implements ICSVDataObject {
     	return user_type.getHourlyRate() * (hours -1);
     	
     }
-   
+    
+    public double calculateFullPrice(AccountRole user_type, double hours) {
+    	// full price
+    	
+    	return user_type.getHourlyRate() * (hours);
+    	
+    }
 	public String getStudentOrOrganizationId() {
 		return studentOrOrganizationId;
 	}
