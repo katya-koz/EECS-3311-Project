@@ -30,7 +30,6 @@ import org.openjfx.EECS_3311_Project.Session;
 import org.openjfx.EECS_3311_Project.managers.SceneManager;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.Booking;
-import org.openjfx.EECS_3311_Project.model.Payment;
 import org.openjfx.EECS_3311_Project.model.User;
 
 public class BookingEditController implements Initializable {
@@ -194,7 +193,6 @@ public class BookingEditController implements Initializable {
         SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
     
-    
     private void showCreditModal(ActionEvent event) {
         javafx.stage.Stage modalStage = new javafx.stage.Stage();
         modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
@@ -209,19 +207,19 @@ public class BookingEditController implements Initializable {
 
         Label cardNumberLabel = new Label("Enter Credit Card Number (16 digits): ");
         cardNumberLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField cardNumberField = new TextField();
         cardNumberField.setPromptText("Card Number (16 digits)");
 
         Label CSVLabel = new Label("Enter CSV: ");
         CSVLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField csvField = new TextField();
         csvField.setPromptText("CSV (3 digits)");
 
         Label expLabel = new Label("Expiration Date(MM/YY): ");
         expLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField expiryField = new TextField();
         expiryField.setPromptText("Expiry (MM/YY)");
 
@@ -235,36 +233,47 @@ public class BookingEditController implements Initializable {
             String card = cardNumberField.getText().trim();
             String csv = csvField.getText().trim();
             String expiry = expiryField.getText().trim();
-            
 
-            String validationError = validatePaymentFields(card, csv, expiry);
-            if (validationError != null) {
-                errorLabel.setText(validationError);
+            PaymentDecorator.PaymentAction action =
+                    new PaymentDecorator.CardValidationDecorator(
+                            new PaymentDecorator.BasePaymentAction(
+                                    price,
+                                    parseCard(card),
+                                    currentBooking,
+                                    Session.getUser(),
+                                    mediator,
+                                    bookingController
+                            ),
+                            card, csv, expiry,
+                            this::validatePaymentFields
+                    );
+
+            String result = action.execute();
+
+            if (result != null) {
+                errorLabel.setText(result);
             } else {
-            	bookingController.saveBooking(currentBooking, Session.getUser());
-            	Payment payment = new Payment(price, parseCard(card), Session.getUser().getId(), currentBooking.getId());
-                mediator.createPaymentRecord(payment);
-                
-            	modalStage.close();
-                
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Payment Successful");
-                alert.setHeaderText(null);
-                alert.setContentText("Payment completed successfully!");
-                alert.showAndWait();
+                modalStage.close();
+                showAlert("Payment Successful", null,
+                        "Payment completed successfully!",
+                        Alert.AlertType.INFORMATION);
             }
         });
 
-        root.getChildren().addAll(priceLabel, cardNumberLabel, cardNumberField, CSVLabel, csvField, expLabel, expiryField, errorLabel, payButton);
+        root.getChildren().addAll(
+                priceLabel,
+                cardNumberLabel, cardNumberField,
+                CSVLabel, csvField,
+                expLabel, expiryField,
+                errorLabel, payButton
+        );
+
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();
-        
+
         SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
-    
-    
     
     public static String parseCard(String cardNumber) {
         if (cardNumber == null || cardNumber.length() <= 4) {
@@ -397,8 +406,6 @@ public class BookingEditController implements Initializable {
         attendeesList.getChildren().add(row);
     }
     
-    
-    
     /// extend time
     @FXML
     private void onExtendTime() {
@@ -479,19 +486,19 @@ public class BookingEditController implements Initializable {
 
         Label cardNumberLabel = new Label("Enter Debit Card Number (16 digits): ");
         cardNumberLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField cardNumberField = new TextField();
         cardNumberField.setPromptText("Card Number (16 digits)");
 
         Label CSVLabel = new Label("Enter CSV: ");
         CSVLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField csvField = new TextField();
         csvField.setPromptText("CSV (3 digits)");
 
         Label expLabel = new Label("Expiration Date(MM/YY): ");
         expLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField expiryField = new TextField();
         expiryField.setPromptText("Expiry (MM/YY)");
 
@@ -506,33 +513,47 @@ public class BookingEditController implements Initializable {
             String csv = csvField.getText().trim();
             String expiry = expiryField.getText().trim();
 
-            String validationError = validatePaymentFields(card, csv, expiry);
-            if (validationError != null) {
-                errorLabel.setText(validationError);
+            PaymentDecorator.PaymentAction action =
+                    new PaymentDecorator.CardValidationDecorator(
+                            new PaymentDecorator.BasePaymentAction(
+                                    price,
+                                    parseCard(card),
+                                    currentBooking,
+                                    Session.getUser(),
+                                    mediator,
+                                    bookingController
+                            ),
+                            card, csv, expiry,
+                            this::validatePaymentFields
+                    );
+
+            String result = action.execute();
+
+            if (result != null) {
+                errorLabel.setText(result);
             } else {
-            	bookingController.saveBooking(currentBooking, Session.getUser());
- 
-            	Payment payment = new Payment(price, parseCard(card), Session.getUser().getId(), currentBooking.getId());
-                mediator.createPaymentRecord(payment);
-                
-            	modalStage.close();
-                
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Payment Successful");
-                alert.setHeaderText(null);
-                alert.setContentText("Payment completed successfully!");
-                alert.showAndWait();
+                modalStage.close();
+                showAlert("Payment Successful", null,
+                        "Payment completed successfully!",
+                        Alert.AlertType.INFORMATION);
             }
         });
 
-        root.getChildren().addAll(priceLabel, cardNumberLabel, cardNumberField, CSVLabel, csvField, expLabel, expiryField, errorLabel, payButton);
+        root.getChildren().addAll(
+                priceLabel,
+                cardNumberLabel, cardNumberField,
+                CSVLabel, csvField,
+                expLabel, expiryField,
+                errorLabel, payButton
+        );
+
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();
-        
-    	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+
+        SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
+
     
     private void showInstitutionalModal(ActionEvent event) {
         javafx.stage.Stage modalStage = new javafx.stage.Stage();
@@ -548,16 +569,15 @@ public class BookingEditController implements Initializable {
 
         Label InstitutionalBillingLabel = new Label("Enter Institutinal Biling Number (10 digits): ");
         InstitutionalBillingLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField InstitutionalBillingField = new TextField();
         InstitutionalBillingField.setPromptText("Institutional Biling Number (10 digits)");
 
         Label InstitutionalNameLabel = new Label("Enter Your Name: ");
         InstitutionalNameLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-        
+
         TextField InstitutionalNameField = new TextField();
         InstitutionalNameField.setPromptText("Enter Your Name");
-
 
         Label errorLabel = new Label();
         errorLabel.setStyle("-fx-text-fill: red;");
@@ -568,33 +588,48 @@ public class BookingEditController implements Initializable {
         payButton.setOnAction(e -> {
             String InstitutionalBilling = InstitutionalBillingField.getText().trim();
             String InstitutionalName = InstitutionalNameField.getText().trim();
-        
-            String validationError = validateInstitutionalFields(InstitutionalBilling, InstitutionalName);
-            if (validationError != null) {
-                errorLabel.setText(validationError);
+
+            PaymentDecorator.PaymentAction action =
+                    new PaymentDecorator.InstitutionalValidationDecorator(
+                            new PaymentDecorator.BasePaymentAction(
+                                    price,
+                                    parseInstitutional(InstitutionalBilling),
+                                    currentBooking,
+                                    Session.getUser(),
+                                    mediator,
+                                    bookingController
+                            ),
+                            InstitutionalBilling,
+                            InstitutionalName,
+                            this::validateInstitutionalFields
+                    );
+
+            String result = action.execute();
+
+            if (result != null) {
+                errorLabel.setText(result);
             } else {
-            	bookingController.saveBooking(currentBooking, Session.getUser());
-                Payment payment = new Payment(price, parseInstitutional(InstitutionalBilling), Session.getUser().getId(), currentBooking.getId());
-                
-                mediator.createPaymentRecord(payment);
                 modalStage.close();
-                
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Payment Successful");
-                alert.setHeaderText(null);
-                alert.setContentText("Payment completed successfully!");
-                alert.showAndWait();
+                showAlert("Payment Successful", null,
+                        "Payment completed successfully!",
+                        Alert.AlertType.INFORMATION);
             }
-           
         });
 
-        root.getChildren().addAll(priceLabel, InstitutionalBillingLabel, InstitutionalBillingField, InstitutionalNameLabel, InstitutionalNameField, errorLabel, payButton);
+        root.getChildren().addAll(
+                priceLabel,
+                InstitutionalBillingLabel, InstitutionalBillingField,
+                InstitutionalNameLabel, InstitutionalNameField,
+                errorLabel, payButton
+        );
+
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();
-        
-    	SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
+
+        SceneManager.changeScene(event, "HomePage.fxml", "Main Menu");
     }
+
     private String validateInstitutionalFields(String number, String name) {
         if (number.isBlank() || !number.matches("\\d{10}")) {
             return "Institutional Number Must Be 10 digits";
