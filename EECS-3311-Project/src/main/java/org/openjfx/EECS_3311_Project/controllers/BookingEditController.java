@@ -101,8 +101,9 @@ public class BookingEditController implements Initializable {
         AccountRole user_type = user.getAccountRole();
 
         price = mediator.calculateDepositPrice(booking, user_type);
-
-        String bookingPriceText = String.format("$ %.2f", totalPrice);
+        
+        String bookingPriceText = String.format("$ %.2f", price);
+        
         bookingPrice.setText(bookingPriceText);
         
         studentIdField.setText(booking.getStudentOrOrganizationId());
@@ -469,9 +470,13 @@ public class BookingEditController implements Initializable {
             modalStage.setScene(scene);
             modalStage.showAndWait();
             
+            
             showAlert("Booking extended", "You've extended your booking successfully!",  
                       "Booking extended by " + selected, Alert.AlertType.INFORMATION);
 
+            bookingController.extendBooking(currentBooking, extension);
+            setBookingInfo(currentBooking, Session.getUser());
+            
             populateExtendComboBox();
         }
     }

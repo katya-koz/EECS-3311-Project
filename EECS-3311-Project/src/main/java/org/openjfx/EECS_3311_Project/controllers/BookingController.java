@@ -18,6 +18,7 @@ public class BookingController {
 
     public Booking extendBooking(Booking booking, Duration extension) {
         booking.setEndTime(booking.getEndTime().plus(extension));
+        
         return mediator.saveBooking(booking);
     }
 }
