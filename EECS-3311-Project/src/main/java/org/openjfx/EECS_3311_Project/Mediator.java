@@ -140,8 +140,7 @@ public class Mediator {
 		return bookingManager.cancelBooking(booking);
 		
 	}
-	
-	
+
 	public UserManager getUserManager() {
 	    return userManager;
 	}
@@ -170,17 +169,17 @@ public class Mediator {
 		return bookingManager.getPaymentFromBooking(booking);
 	}
 	
-	public double computeTotalPrice(Booking booking, AccountRole role) {
 
-		double hours = Duration.between(booking.getStartTime(), booking.getEndTime()).toMinutes() / 60.0;
-		System.out.println(hours);
-		
-		return booking.calculateFullPrice(role, hours);
-		
-		
-	}
-	
-	public double computeDepositPrice(Booking booking, AccountRole role) {
-		return booking.calculateDepositPrice(role);
-	}
+    public double calculateDepositPrice(Booking booking, AccountRole role, Duration duration) {
+        return booking.calculateDepositPrice(role, duration);
+    }	
+    
+    public double calculateTotalPrice(Booking booking, AccountRole role) {
+        return booking.calculateTotalPrice(role);
+    }
+    
+    public double calculateExtendPrice(Booking booking, AccountRole role, Duration extension) {
+        return booking.calculateExtendPrice(role, extension);
+    }
+
 }

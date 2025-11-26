@@ -121,7 +121,16 @@ public class BookingView extends ListCell<Booking>
         checkInButton.setOnAction(event -> {
         	Booking currentBooking = getItem();
         	 if (currentBooking.getIsCheckedIn() == false) {
-                 Alert confirmAlert2 = new Alert(Alert.AlertType.CONFIRMATION);
+        		 
+        		 if(LocalDateTime.now().isAfter(currentBooking.getStartTime().plusMinutes(30)) ) {
+        			 Alert confirmAlert2 = new Alert(Alert.AlertType.ERROR);
+                     confirmAlert2.setHeaderText("Your check in window has expired.");
+                     confirmAlert2.setContentText("You may not check into a meeting after more than 30 minutes after the start time, Your deposit will not be refunded.");
+                     confirmAlert2.showAndWait();
+                     
+                     
+        		 }else {
+        			 Alert confirmAlert2 = new Alert(Alert.AlertType.CONFIRMATION);
                  confirmAlert2.setHeaderText("Check into " + currentBooking.getRoomId() + " for " + currentBooking.getName() + "?");
                  confirmAlert2.setContentText("Meeting Begins on: " + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("MMM d, yyyy")) + " from "
                  + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " to " 
@@ -148,7 +157,9 @@ public class BookingView extends ListCell<Booking>
                          checkInButton.setManaged(false);
                 		 getListView().refresh();             		 
                 	 }
-                 });
+                 }); 
+        		 }
+                
                  
         	 }
         	 
@@ -215,8 +226,9 @@ public class BookingView extends ListCell<Booking>
     private void showPaymentModal(ActionEvent event) {
      	Booking currentBooking = getItem();
      	Payment payment = mediator.getPaymentFromBooking(currentBooking);
-     	double subtotalPrice = payment.getAmount();
-     	double taxedPrice = subtotalPrice * tax;
+     	
+     	double subtotalPrice = mediator.calculateTotalPrice(currentBooking, Session.getUser().getAccountRole());
+     	double taxedPrice = (subtotalPrice + Session.getUser().getAccountRole().getHourlyRate())* tax;
      	
         javafx.stage.Stage modalStage = new javafx.stage.Stage();
         modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
