@@ -169,9 +169,9 @@ public class Mediator {
 		return bookingManager.getPaymentFromBooking(booking);
 	}
 	
+    public double calculateDepositPrice(Booking booking, AccountRole role) {
+        return booking.calculateDepositPrice(role);
 
-    public double calculateDepositPrice(Booking booking, AccountRole role, Duration duration) {
-        return booking.calculateDepositPrice(role, duration);
     }	
     
     public double calculateTotalPrice(Booking booking, AccountRole role) {

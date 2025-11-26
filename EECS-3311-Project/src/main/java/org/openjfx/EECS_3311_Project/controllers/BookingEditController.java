@@ -92,8 +92,7 @@ public class BookingEditController implements Initializable {
         
         LocalDateTime start = booking.getStartTime();
         LocalDateTime end = booking.getEndTime();
-        Duration timeDiff = Duration.between(start, end);
-        
+
         String dateTimeText = start.format(timeFormatter) + " - " + end.format(timeFormatter);
         dateTime.setText(dateTimeText);
 
@@ -101,7 +100,7 @@ public class BookingEditController implements Initializable {
 
         AccountRole user_type = user.getAccountRole();
 
-        price = mediator.calculateDepositPrice(booking, user_type, timeDiff);
+        price = mediator.calculateDepositPrice(booking, user_type);
 
         String bookingPriceText = String.format("$ %.2f", totalPrice);
         bookingPrice.setText(bookingPriceText);
