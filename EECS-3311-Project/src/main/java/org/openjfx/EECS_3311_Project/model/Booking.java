@@ -56,7 +56,7 @@ public class Booking implements ICSVDataObject {
     }
 
 
-    public Booking(String roomId, String hostId, LocalDateTime startTime, LocalDateTime endTime, String paymentId) {
+    public Booking(String roomId, String hostId, LocalDateTime startTime, LocalDateTime endTime) {
     	this.id = UUID.randomUUID().toString();
     	this.roomId = roomId;
     	this.name = "New Meeting";
