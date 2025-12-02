@@ -121,7 +121,16 @@ public class BookingView extends ListCell<Booking>
         checkInButton.setOnAction(event -> {
         	Booking currentBooking = getItem();
         	 if (currentBooking.getIsCheckedIn() == false) {
-                 Alert confirmAlert2 = new Alert(Alert.AlertType.CONFIRMATION);
+        		 
+        		 if(LocalDateTime.now().isAfter(currentBooking.getStartTime().plusMinutes(30)) ) {
+        			 Alert confirmAlert2 = new Alert(Alert.AlertType.ERROR);
+                     confirmAlert2.setHeaderText("Your check in window has expired.");
+                     confirmAlert2.setContentText("You may not check into a meeting after more than 30 minutes after the start time, Your deposit will not be refunded.");
+                     confirmAlert2.showAndWait();
+                     
+                     
+        		 }else {
+        			 Alert confirmAlert2 = new Alert(Alert.AlertType.CONFIRMATION);
                  confirmAlert2.setHeaderText("Check into " + currentBooking.getRoomId() + " for " + currentBooking.getName() + "?");
                  confirmAlert2.setContentText("Meeting Begins on: " + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("MMM d, yyyy")) + " from "
                  + currentBooking.getStartTime().format(DateTimeFormatter.ofPattern("HH:mm")) + " to " 
@@ -133,7 +142,7 @@ public class BookingView extends ListCell<Booking>
                 		 LocalDateTime now = LocalDateTime.now();
                 		 
                    		 showPaymentModal(event);
-                		 
+                   		 
                 		 currentBooking.checkIn();
                 		 currentBooking.setCheckInTime(now);
                 		 mediator.saveBooking(currentBooking);
@@ -148,7 +157,9 @@ public class BookingView extends ListCell<Booking>
                          checkInButton.setManaged(false);
                 		 getListView().refresh();             		 
                 	 }
-                 });
+                 }); 
+        		 }
+                
                  
         	 }
         	 
@@ -198,7 +209,7 @@ public class BookingView extends ListCell<Booking>
             LocalDateTime now = LocalDateTime.now();
             
             // comment out the second logical conditions
-            boolean showCheckIn = !Boolean.TRUE.equals(newBooking.getIsCheckedIn()) && (now.isAfter(newBooking.getStartTime()));
+            boolean showCheckIn = !Boolean.TRUE.equals(newBooking.getIsCheckedIn()); // && (now.isAfter(newBooking.getStartTime()));
             
             checkInButton.setVisible(showCheckIn);
             checkInButton.setManaged(showCheckIn);
@@ -214,9 +225,15 @@ public class BookingView extends ListCell<Booking>
 
     private void showPaymentModal(ActionEvent event) {
      	Booking currentBooking = getItem();
-     	Payment payment = mediator.getPaymentFromBooking(currentBooking);
-     	double subtotalPrice = payment.getAmount();
+     	Payment oldPayment = mediator.getPaymentFromBooking(currentBooking);
+     	String cardNumber = oldPayment.getCardNumber();
+     	
+     	double subtotalPrice = mediator.calculateTotalPrice(currentBooking, Session.getUser().getAccountRole());
+     	double taxOnDepositPrice = mediator.calculateDepositPrice(currentBooking, Session.getUser().getAccountRole()) * 0.13;
+     	
      	double taxedPrice = subtotalPrice * tax;
+     	double totalPrice = subtotalPrice + taxOnDepositPrice + taxedPrice;
+
      	
         javafx.stage.Stage modalStage = new javafx.stage.Stage();
         modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
@@ -232,17 +249,22 @@ public class BookingView extends ListCell<Booking>
         Label taxedPriceLabel = new Label(String.format("Your Taxed Amount: $%.2f", taxedPrice));
         taxedPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         
-        Label totalPriceLabel = new Label(String.format("Your Total: $%.2f", subtotalPrice + taxedPrice));
+        Label taxOnDepositPriceLabel = new Label(String.format("Your Tax On Deposit Amount: $%.2f", taxOnDepositPrice));
+        taxOnDepositPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+        
+        Label totalPriceLabel = new Label(String.format("Your Total: $%.2f", totalPrice));
         totalPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
         Button payButton = new Button("Confirm");
         payButton.setStyle("-fx-font-weight: bold;");
 
         payButton.setOnAction(e -> {
+            Payment payment = new Payment(totalPrice, cardNumber, Session.getUser().getId(), currentBooking.getId());
+            mediator.createPaymentRecord(payment);
         	modalStage.close();
         });
 
-        root.getChildren().addAll(subtotalPriceLabel, taxedPriceLabel, totalPriceLabel, payButton);
+        root.getChildren().addAll(subtotalPriceLabel, taxedPriceLabel, taxOnDepositPriceLabel, totalPriceLabel, payButton);
         Scene scene = new javafx.scene.Scene(root, 400, 300);
         modalStage.setScene(scene);
         modalStage.showAndWait();

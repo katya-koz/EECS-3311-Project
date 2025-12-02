@@ -30,7 +30,10 @@ import org.openjfx.EECS_3311_Project.Session;
 import org.openjfx.EECS_3311_Project.managers.SceneManager;
 import org.openjfx.EECS_3311_Project.model.AccountRole;
 import org.openjfx.EECS_3311_Project.model.Booking;
+import org.openjfx.EECS_3311_Project.model.Payment;
 import org.openjfx.EECS_3311_Project.model.User;
+
+import org.openjfx.EECS_3311_Project.controllers.*;
 
 public class BookingEditController implements Initializable {
     @FXML
@@ -53,6 +56,7 @@ public class BookingEditController implements Initializable {
     private Button comboExtendTimeBtn;
     
     private double price;
+    private double totalPrice;
     
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     Mediator mediator = Mediator.getInstance();
@@ -88,6 +92,7 @@ public class BookingEditController implements Initializable {
         
         LocalDateTime start = booking.getStartTime();
         LocalDateTime end = booking.getEndTime();
+
         String dateTimeText = start.format(timeFormatter) + " - " + end.format(timeFormatter);
         dateTime.setText(dateTimeText);
 
@@ -95,9 +100,10 @@ public class BookingEditController implements Initializable {
 
         AccountRole user_type = user.getAccountRole();
 
-        price = mediator.computePrice(booking, user_type);
-
+        price = mediator.calculateDepositPrice(booking, user_type);
+        
         String bookingPriceText = String.format("$ %.2f", price);
+        
         bookingPrice.setText(bookingPriceText);
         
         studentIdField.setText(booking.getStudentOrOrganizationId());
@@ -132,6 +138,12 @@ public class BookingEditController implements Initializable {
             showAlert("Missing Fields", "Please fill in all required fields", "Booking name and Student/Organization ID cannot be empty.", Alert.AlertType.ERROR);
             return;
         }
+        
+        if (studentId.length() != 9) {
+                
+                showAlert("Invalid ID","Invalid student or organization ID.", "A valid student or organization ID is 9 digits.", Alert.AlertType.ERROR);
+                return;
+            }
         
         currentBooking.setName(newName);
         currentBooking.setStudentOrOrganizationId(studentId);
@@ -408,7 +420,7 @@ public class BookingEditController implements Initializable {
     
     /// extend time
     @FXML
-    private void onExtendTime() {
+    private void onExtendTime() {        
         String selected = comboExtendTime.getValue();
         if (selected == null) return;
 
@@ -420,25 +432,55 @@ public class BookingEditController implements Initializable {
             default -> Duration.ZERO;
         };
         
-        // we can extend up to two hours
-        
         if (!extension.isZero()) {
-            bookingController.extendBooking(currentBooking, extension);
+            double extensionInHours = extension.toHours() * 1.0;
+         	double subtotalPrice = extensionInHours * Session.getUser().getAccountRole().getHourlyRate();
+         	double taxedPrice = subtotalPrice * 0.13;
 
-            LocalDateTime start = currentBooking.getStartTime();
-            LocalDateTime end = currentBooking.getEndTime();
-            dateTime.setText(start.format(timeFormatter) + " - " + end.format(timeFormatter));
 
-            price = mediator.computePrice(currentBooking, Session.getUser().getAccountRole());
+            price = mediator.calculateExtendPrice(currentBooking, Session.getUser().getAccountRole(), extension);
             bookingPrice.setText(String.format("$ %.2f", price));
+            
+            javafx.stage.Stage modalStage = new javafx.stage.Stage();
+            modalStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            modalStage.setTitle("Total Payment");
 
+            VBox root = new VBox(5);
+            root.setPadding(new javafx.geometry.Insets(20));
+            root.setStyle("-fx-background-color: #f0f0f0;");
+
+            Label subtotalPriceLabel = new Label(String.format("Your Subtotal: $%.2f", subtotalPrice));
+            subtotalPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+            
+            Label taxedPriceLabel = new Label(String.format("Your Taxed Amount: $%.2f", taxedPrice));
+            taxedPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+            
+            Label totalPriceLabel = new Label(String.format("Your Total: $%.2f", subtotalPrice + taxedPrice));
+            totalPriceLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
+
+            Button payButton = new Button("Confirm");
+            payButton.setStyle("-fx-font-weight: bold;");
+
+            payButton.setOnAction(e -> {
+            	modalStage.close();
+            });
+
+            root.getChildren().addAll(subtotalPriceLabel, taxedPriceLabel, totalPriceLabel, payButton);
+            Scene scene = new javafx.scene.Scene(root, 400, 300);
+            modalStage.setScene(scene);
+            modalStage.showAndWait();
+            
+            
             showAlert("Booking extended", "You've extended your booking successfully!",  
                       "Booking extended by " + selected, Alert.AlertType.INFORMATION);
 
+            bookingController.extendBooking(currentBooking, extension);
+            setBookingInfo(currentBooking, Session.getUser());
+            
             populateExtendComboBox();
         }
     }
-    
+
     private void populateExtendComboBox() {
         comboExtendTime.getItems().clear();
         comboExtendTime.getItems().addAll("30 min", "1 hr", "1.5 hr", "2 hr");

@@ -1,5 +1,6 @@
 package org.openjfx.EECS_3311_Project.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class Booking implements ICSVDataObject {
     }
 
 
-    public Booking(String roomId, String hostId, LocalDateTime startTime, LocalDateTime endTime, String paymentId) {
+    public Booking(String roomId, String hostId, LocalDateTime startTime, LocalDateTime endTime) {
     	this.id = UUID.randomUUID().toString();
     	this.roomId = roomId;
     	this.name = "New Meeting";
@@ -171,21 +172,38 @@ public class Booking implements ICSVDataObject {
     }
     
     public double calculateDepositPrice(AccountRole user_type) {
-    	// req says user is charged 1 hour deposit fee upfront
-    	return user_type.getHourlyRate();
+    	LocalDateTime start = this.getStartTime(); 
+    	LocalDateTime end = this.getEndTime();
+    	
+    	long timeDiff = Duration.between(start, end).toMinutes();
+    	
+    	System.out.println(timeDiff);
+
+    	
+    	if (timeDiff < 60) {
+        	return user_type.getHourlyRate() / 2;
+    	} else {
+        	// req says user is charged 1 hour deposit fee upfront
+        	return user_type.getHourlyRate();
+    	}
     } 
     
-    public double calculateTotalPrice(AccountRole user_type, double hours) {
+    public double calculateTotalPrice(AccountRole user_type) {
     	// this is called when user checks in, so  subtract 1 hour from fee since it's been paid already.
     	
+     	LocalDateTime start = this.getStartTime(); 
+    	LocalDateTime end = this.getEndTime();
+    	
+    	double hours = Duration.between(start, end).toMinutes() / 60.0;
+    	return user_type.getHourlyRate() * (hours -1);
+    }
+    
+    public double calculateExtendPrice(AccountRole user_type, Duration extension) {
+    	// this is called when user checks in, so  subtract 1 hour from fee since it's been paid already.
+    	long hours = extension.toHours();
     	return user_type.getHourlyRate() * (hours -1);
     	
     }
-    
-    public double depositAndTotalPrice(AccountRole user_type, double hours) {
-    	return calculateTotalPrice(user_type,hours + 1);
-    }
-
 
 	public String getStudentOrOrganizationId() {
 		return studentOrOrganizationId;
